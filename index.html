@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo IA · Clínica Dental · AutoClientes.ai</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0D1B2A;--navy-soft:#162236;--teal:#0EA5A0;--teal-light:#E6F7F6;
+  --white:#FFFFFF;--gray-50:#F8F9FA;--gray-100:#F1F3F4;--gray-300:#D1D5DB;
+  --gray-500:#6B7280;--gray-700:#374151;--gray-900:#111827;--gold:#C9A84C;
+}
+html{font-size:16px}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--navy);color:var(--white);min-height:100vh;line-height:1.6}
+.page{max-width:1100px;margin:0 auto;padding:0 24px}
+header{padding:28px 0 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.08)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;color:var(--white);text-decoration:none}
+.logo-dot{width:28px;height:28px;background:var(--teal);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px}
+.badge-header{background:rgba(14,165,160,0.15);border:1px solid rgba(14,165,160,0.3);color:var(--teal);font-size:12px;font-weight:500;padding:5px 14px;border-radius:100px}
+.hero{padding:72px 0 56px;text-align:center}
+.eyebrow{font-size:12px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal);margin-bottom:20px}
+.hero h1{font-family:'Playfair Display',Georgia,serif;font-size:clamp(32px,5vw,52px);font-weight:400;line-height:1.15;color:var(--white);margin-bottom:20px;max-width:640px;margin-left:auto;margin-right:auto}
+.hero h1 em{font-style:italic;color:var(--teal)}
+.hero-sub{font-size:17px;color:rgba(255,255,255,0.6);max-width:480px;margin:0 auto 40px;line-height:1.65;font-weight:300}
+.hero-cta{display:inline-flex;align-items:center;gap:8px;background:var(--teal);color:var(--navy);font-weight:600;font-size:15px;padding:14px 28px;border-radius:100px;border:none;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;text-decoration:none}
+.hero-cta:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(14,165,160,0.35)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,0.06);border-radius:16px;overflow:hidden;margin:0 0 72px}
+.stat{background:var(--navy-soft);padding:28px 24px;text-align:center}
+.stat-num{font-family:'Playfair Display',Georgia,serif;font-size:36px;color:var(--teal);font-weight:400;line-height:1;margin-bottom:6px}
+.stat-label{font-size:13px;color:rgba(255,255,255,0.5)}
+.demo-section{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;margin-bottom:72px}
+.demo-info h2{font-family:'Playfair Display',Georgia,serif;font-size:30px;font-weight:400;line-height:1.25;margin-bottom:16px}
+.demo-info p{font-size:15px;color:rgba(255,255,255,0.6);line-height:1.7;margin-bottom:24px;font-weight:300}
+.feature-list{list-style:none;display:flex;flex-direction:column;gap:12px}
+.feature-list li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:rgba(255,255,255,0.75)}
+.feature-list li::before{content:'';width:18px;height:18px;min-width:18px;background:var(--teal);border-radius:50%;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M3 8l3.5 3.5L13 5' stroke='%230D1B2A' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-size:100%;margin-top:1px}
+.phone-wrap{display:flex;justify-content:center}
+.phone{width:300px;background:#1A1A1A;border-radius:40px;padding:12px;box-shadow:0 32px 64px rgba(0,0,0,0.6),0 0 0 1px rgba(255,255,255,0.08)}
+.phone-notch{width:100px;height:24px;background:#1A1A1A;border-radius:0 0 16px 16px;margin:0 auto 4px}
+.phone-screen{background:#F0F0F0;border-radius:28px;overflow:hidden;display:flex;flex-direction:column}
+.chat-header{background:white;padding:14px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #EBEBEB}
+.chat-avatar{width:36px;height:36px;background:linear-gradient(135deg,var(--teal),#0D5C5A);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:white;font-weight:600;flex-shrink:0}
+.chat-name{font-size:13px;font-weight:600;color:#111827}
+.chat-status{font-size:11px;color:#22C55E}
+.chat-messages{flex:1;padding:12px;display:flex;flex-direction:column;gap:10px;background:#F0F0F0;overflow-y:auto;max-height:380px;min-height:200px}
+.msg{max-width:82%;padding:10px 13px;border-radius:18px;font-size:13px;line-height:1.45;word-break:break-word}
+.msg.bot{background:white;color:#111827;border-bottom-left-radius:4px;align-self:flex-start;box-shadow:0 1px 2px rgba(0,0,0,0.06)}
+.msg.user{background:#0084FF;color:white;border-bottom-right-radius:4px;align-self:flex-end}
+.msg-time{font-size:10px;color:#6B7280;text-align:center;margin:4px 0}
+.typing{display:flex;align-items:center;gap:4px;padding:10px 14px;background:white;border-radius:18px;border-bottom-left-radius:4px;align-self:flex-start;width:fit-content;box-shadow:0 1px 2px rgba(0,0,0,0.06)}
+.typing span{width:6px;height:6px;background:#9CA3AF;border-radius:50%;display:inline-block;animation:bounce 1.2s infinite}
+.typing span:nth-child(2){animation-delay:0.2s}
+.typing span:nth-child(3){animation-delay:0.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+.quick-replies{display:flex;flex-wrap:wrap;gap:6px;padding:8px 12px 4px;background:#F0F0F0}
+.qr-btn{background:white;border:1px solid #D1D5DB;border-radius:100px;padding:6px 12px;font-size:12px;color:#0084FF;font-weight:500;cursor:pointer;transition:background 0.1s;font-family:'Inter',system-ui,sans-serif}
+.qr-btn:hover{background:#F0F4FF}
+.chat-input-bar{background:white;padding:10px 12px;display:flex;align-items:center;gap:8px;border-top:1px solid #EBEBEB}
+.chat-input-bar input{flex:1;border:none;background:#F3F4F6;border-radius:20px;padding:8px 14px;font-size:13px;outline:none;color:#111827;font-family:'Inter',system-ui,sans-serif}
+.send-btn{width:32px;height:32px;background:#0084FF;border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.scenario-tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.tab-btn{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);font-size:13px;font-weight:500;padding:8px 16px;border-radius:100px;cursor:pointer;transition:all 0.15s;font-family:'Inter',system-ui,sans-serif}
+.tab-btn:hover{background:rgba(255,255,255,0.1);color:white}
+.tab-btn.active{background:var(--teal);border-color:var(--teal);color:var(--navy);font-weight:600}
+.tab-btn.ai-mode{background:rgba(201,168,76,0.15);border-color:rgba(201,168,76,0.4);color:var(--gold)}
+.tab-btn.ai-mode.active{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+.ai-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);color:var(--gold);font-size:11px;font-weight:500;padding:4px 10px;border-radius:100px;margin-bottom:12px}
+.ai-pulse{width:6px;height:6px;background:var(--gold);border-radius:50%;animation:pulse 1.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+.pricing-section{margin-bottom:72px}
+.section-label{font-size:12px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--teal);margin-bottom:12px}
+.section-title{font-family:'Playfair Display',Georgia,serif;font-size:28px;font-weight:400;margin-bottom:8px}
+.section-sub{font-size:15px;color:rgba(255,255,255,0.5);margin-bottom:36px;font-weight:300}
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.plan-card{background:var(--navy-soft);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px 24px;position:relative}
+.plan-card.featured{border-color:var(--teal);background:rgba(14,165,160,0.06)}
+.plan-badge{position:absolute;top:-11px;left:24px;background:var(--teal);color:var(--navy);font-size:11px;font-weight:700;padding:3px 12px;border-radius:100px;letter-spacing:0.05em;text-transform:uppercase}
+.plan-name{font-size:13px;font-weight:500;color:rgba(255,255,255,0.5);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.08em}
+.plan-price{margin-bottom:4px}
+.plan-price .amount{font-family:'Playfair Display',Georgia,serif;font-size:38px;font-weight:400;color:white;line-height:1}
+.plan-price .currency{font-size:20px;vertical-align:top;margin-top:8px;display:inline-block;color:rgba(255,255,255,0.7)}
+.plan-price .period{font-size:14px;color:rgba(255,255,255,0.4);margin-left:4px}
+.plan-setup{font-size:12px;color:rgba(255,255,255,0.35);margin-bottom:20px}
+.plan-setup strong{color:rgba(255,255,255,0.6)}
+.plan-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
+.plan-features li{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(255,255,255,0.7);line-height:1.4}
+.plan-features li::before{content:'';width:16px;height:16px;min-width:16px;background:var(--teal);border-radius:50%;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M3 8l3.5 3.5L13 5' stroke='%230D1B2A' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-size:100%;margin-top:1px}
+.plan-cta{width:100%;padding:12px;border-radius:100px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:'Inter',system-ui,sans-serif;transition:transform 0.15s}
+.plan-cta:hover{transform:translateY(-1px)}
+.plan-cta.primary{background:var(--teal);color:var(--navy)}
+.plan-cta.secondary{background:rgba(255,255,255,0.08);color:white;border:1px solid rgba(255,255,255,0.15)}
+.roi-box{background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:16px;padding:24px;margin-top:20px;display:flex;align-items:center;gap:16px}
+.roi-icon{font-size:28px;flex-shrink:0}
+.roi-text h4{font-size:14px;font-weight:600;color:var(--gold);margin-bottom:4px}
+.roi-text p{font-size:13px;color:rgba(255,255,255,0.55);line-height:1.5}
+.final-cta{text-align:center;padding:64px 0 80px;border-top:1px solid rgba(255,255,255,0.06)}
+.final-cta h2{font-family:'Playfair Display',Georgia,serif;font-size:32px;font-weight:400;margin-bottom:12px}
+.final-cta p{font-size:16px;color:rgba(255,255,255,0.5);margin-bottom:32px;font-weight:300}
+.cta-group{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-primary{background:var(--teal);color:var(--navy);font-weight:600;font-size:15px;padding:14px 32px;border-radius:100px;border:none;cursor:pointer;font-family:'Inter',system-ui,sans-serif;transition:transform 0.15s,box-shadow 0.15s}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(14,165,160,0.35)}
+.btn-ghost{background:transparent;color:rgba(255,255,255,0.7);font-size:15px;padding:14px 32px;border-radius:100px;border:1px solid rgba(255,255,255,0.15);cursor:pointer;font-family:'Inter',system-ui,sans-serif;transition:border-color 0.15s,color 0.15s}
+.btn-ghost:hover{border-color:rgba(255,255,255,0.35);color:white}
+@media(max-width:720px){.demo-section,.pricing-grid,.stats{grid-template-columns:1fr}.hero{padding:48px 0 40px}}
+</style>
+</head>
+<body>
+<div class="page">
+<header>
+  <a class="logo" href="#">
+    <div class="logo-dot">✦</div>
+    AutoClientes.ai
+  </a>
+  <span class="badge-header">Demo en vivo</span>
+</header>
+
+<section class="hero">
+  <p class="eyebrow">Especialistas en clínicas dentales</p>
+  <h1>Tu clínica <em>nunca más</em> perderá una cita el fin de semana</h1>
+  <p class="hero-sub">Un sistema de IA responde, califica y agenda al paciente en menos de 1 minuto. Las 24 horas, los 7 días. Sin que tu equipo mueva un dedo.</p>
+  <a href="#demo" class="hero-cta">
+    Probar la demo ahora
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+</section>
+
+<div class="stats">
+  <div class="stat"><div class="stat-num">72%</div><div class="stat-label">de mensajes llegan fuera de horario</div></div>
+  <div class="stat"><div class="stat-num">&lt;60s</div><div class="stat-label">tiempo de respuesta de la IA</div></div>
+  <div class="stat"><div class="stat-num">3.200€</div><div class="stat-label">valor medio de un paciente de implantes</div></div>
+</div>
+
+<section class="demo-section" id="demo">
+  <div class="demo-info">
+    <h2>Habla directamente con la IA de la clínica</h2>
+    <p>Elige un escenario guiado o activa el modo IA real para escribir libremente. Verás exactamente lo que verá tu paciente.</p>
+
+    <div style="margin-bottom:16px">
+      <div class="ai-badge"><span class="ai-pulse"></span>Agente IA activo — powered by Claude</div>
+    </div>
+
+    <div class="scenario-tabs" id="scenarioTabs">
+      <button class="tab-btn active" data-scenario="precio" onclick="selectScenario('precio',this)">Consulta de precio</button>
+      <button class="tab-btn" data-scenario="urgencia" onclick="selectScenario('urgencia',this)">Urgencia nocturna</button>
+      <button class="tab-btn" data-scenario="cita" onclick="selectScenario('cita',this)">Pedir cita</button>
+      <button class="tab-btn ai-mode" data-scenario="ai" onclick="selectScenario('ai',this)">✦ Modo IA libre</button>
+    </div>
+
+    <ul class="feature-list">
+      <li>Responde preguntas complejas con IA, no solo botones</li>
+      <li>Califica al paciente: tratamiento, seguro, urgencia</li>
+      <li>Agenda directamente en tu calendario sin intermediarios</li>
+      <li>Notifica a la clínica con el resumen completo del paciente</li>
+      <li>Funciona en Instagram, WhatsApp y web simultáneamente</li>
+    </ul>
+  </div>
+
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="chat-header">
+          <div class="chat-avatar">CD</div>
+          <div>
+            <div class="chat-name">Clínica Dental · Asistente IA</div>
+            <div class="chat-status" id="chatStatusLabel">● En línea ahora</div>
+          </div>
+        </div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="quick-replies" id="quickReplies"></div>
+        <div class="chat-input-bar">
+          <input type="text" placeholder="Escribe tu pregunta..." id="userInput" onkeydown="if(event.key==='Enter')sendUserMsg()">
+          <button class="send-btn" onclick="sendUserMsg()">
+            <svg viewBox="0 0 16 16" fill="none" width="14" height="14"><path d="M2 14L14 8 2 2v4.5l8 1.5-8 1.5V14z" fill="white"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing-section">
+  <p class="section-label">Planes</p>
+  <h2 class="section-title">Un paciente de implantes lo paga todo</h2>
+  <p class="section-sub">Si el sistema recupera una sola cita de ortodoncia o implantes al mes, ya cubriste tu inversión. Todo lo demás es ganancia.</p>
+  <div class="pricing-grid">
+    <div class="plan-card">
+      <div class="plan-name">Plan Esencial</div>
+      <div class="plan-price"><span class="currency">€</span><span class="amount">199</span><span class="period">/mes</span></div>
+      <div class="plan-setup">Setup único: <strong>299 €</strong></div>
+      <ul class="plan-features">
+        <li>Respuestas automáticas en Instagram y WhatsApp</li>
+        <li>Flujo guiado de preguntas frecuentes</li>
+        <li>Agenda de citas integrada</li>
+        <li>Notificación al equipo por cada lead</li>
+        <li>Panel de control con métricas</li>
+      </ul>
+      <button class="plan-cta secondary" onclick="alert('Te contactaremos en menos de 24h')">Empezar gratis 15 días</button>
+    </div>
+    <div class="plan-card featured">
+      <div class="plan-badge">MÁS POPULAR</div>
+      <div class="plan-name">Plan Pro Médico</div>
+      <div class="plan-price"><span class="currency">€</span><span class="amount">399</span><span class="period">/mes</span></div>
+      <div class="plan-setup">Setup único: <strong>499 €</strong></div>
+      <ul class="plan-features">
+        <li>Todo el Plan Esencial incluido</li>
+        <li>IA conversacional avanzada — responde a "¿duele el implante?"</li>
+        <li>Cualificación por seguro, presupuesto e historial</li>
+        <li>Integración WhatsApp Business para confirmaciones</li>
+        <li>LinkedIn para convenios con empresas locales</li>
+        <li>Soporte prioritario y formación del equipo</li>
+      </ul>
+      <button class="plan-cta primary" onclick="alert('Te contactaremos en menos de 24h')">Solicitar demo personalizada</button>
+    </div>
+  </div>
+  <div class="roi-box">
+    <div class="roi-icon">💡</div>
+    <div class="roi-text">
+      <h4>El cálculo es sencillo</h4>
+      <p>Una ortodoncia Invisalign vale entre 3.000 € y 5.000 €. Si el sistema recupera <strong>una sola cita al mes</strong> que tu recepcionista no llegó a responder el sábado por la noche, la mensualidad está más que justificada.</p>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <h2>¿Cuántas citas perdiste este fin de semana?</h2>
+  <p>Empieza la prueba gratuita de 15 días. Sin permanencia, sin tarjeta.</p>
+  <div class="cta-group">
+    <button class="btn-primary" onclick="alert('Te contactaremos en menos de 24h para comenzar tu prueba gratuita.')">Empezar gratis ahora</button>
+    <button class="btn-ghost" onclick="alert('Escríbenos por Instagram @canalia_es')">Hablar con el equipo</button>
+  </div>
+</section>
+</div>
+
+<script>
+const SYSTEM_PROMPT = `Eres el asistente virtual de una clínica dental en España. Tu objetivo es:
+1. Responder preguntas sobre tratamientos, precios y disponibilidad de forma amable y profesional
+2. Calificar al paciente (qué tratamiento necesita, si tiene seguro dental, urgencia)
+3. Ofrecer cita cuando sea apropiado
+4. Hablar siempre en español, con tono cercano pero profesional
+
+Precios orientativos que puedes mencionar:
+- Revisión + limpieza: 60-90€
+- Empaste: 80-150€
+- Extracción simple: 100-150€
+- Implante unitario (con corona): 1.200-1.800€
+- Ortodoncia brackets: 2.500-4.000€
+- Ortodoncia Invisalign: 3.000-5.500€
+
+Tenemos financiación sin intereses hasta 24 meses.
+Horario: Lunes a viernes 9-20h, sábados 9-14h.
+
+Cuando el paciente muestre interés en una cita, ofrécele disponibilidad concreta (próximos días laborables).
+Mantén las respuestas cortas, máximo 3-4 líneas. No uses asteriscos ni markdown.`;
+
+const scenarios = {
+  precio:[
+    {type:'time',text:'Sábado · 22:14'},
+    {type:'bot',text:'Hola! Soy el asistente de tu Clínica Dental. Estamos cerrados ahora mismo, pero puedo ayudarte con cualquier pregunta. ¿En qué puedo ayudarte?'},
+    {type:'user',text:'¿Cuánto cuesta poner implantes?'},
+    {type:'typing'},
+    {type:'bot',text:'Los implantes dentales tienen un coste que varía según el caso. Un implante unitario con corona está entre 1.200 € y 1.800 €.\n\n¿Necesitas reponer un diente o varios? Así te doy una estimación más ajustada.'},
+    {type:'user',text:'Solo uno, el de arriba'},
+    {type:'typing'},
+    {type:'bot',text:'Para un implante superior unitario estaríamos hablando de aproximadamente 1.400 €, incluyendo implante, pilar y corona cerámica.\n\nTenemos financiación sin intereses hasta 24 meses. ¿Quieres que te reserve una primera consulta de valoración gratuita para el lunes?'},
+    {type:'quickReplies',items:['Sí, quiero cita','Más info sobre financiación','Llamadme el lunes']}
+  ],
+  urgencia:[
+    {type:'time',text:'Domingo · 23:47'},
+    {type:'bot',text:'Hola! Asistente de Clínica Dental. Fuera de horario, pero aquí para ayudarte. ¿Tienes una urgencia?'},
+    {type:'user',text:'Me duele muchísimo una muela, no puedo dormir'},
+    {type:'typing'},
+    {type:'bot',text:'Entiendo, el dolor dental puede ser muy intenso. Para aliviar mientras tanto: ibuprofeno 400mg cada 8h (si no tienes contraindicaciones) y un clavo de olor aplicado en la zona.\n\nTe reservo primera cita de urgencia mañana lunes a las 9:00h. ¿Te va bien?'},
+    {type:'user',text:'Sí por favor'},
+    {type:'typing'},
+    {type:'bot',text:'Cita reservada para mañana lunes a las 9:00h. Te envío confirmación a tu móvil. El doctor revisará la zona y, si es necesario, realizará el tratamiento el mismo día.\n\n¿Necesitas algo más esta noche?'},
+    {type:'quickReplies',items:['Cómo llegar a la clínica','Tengo alergia a medicamentos','Muchas gracias']}
+  ],
+  cita:[
+    {type:'time',text:'Viernes · 20:05'},
+    {type:'bot',text:'Buenas noches! Asistente de Clínica Dental. Estamos cerrando, pero puedo ayudarte a reservar tu cita ahora mismo. ¿Para qué tratamiento?'},
+    {type:'user',text:'Quiero hacer una revisión y limpieza'},
+    {type:'typing'},
+    {type:'bot',text:'Tengo disponibilidad:\n\nMartes 27 · 10:30h\nMiércoles 28 · 17:00h\nJueves 29 · 9:00h\n\n¿Cuál te viene mejor?'},
+    {type:'user',text:'El miércoles a las 5'},
+    {type:'typing'},
+    {type:'bot',text:'Reservado. Miércoles 28 a las 17:00h para revisión y limpieza dental.\n\nC/ Gran Vía 45, 3ºB · Dr. García · 45 minutos.\n\nTe envío recordatorio 24h antes. ¿Tienes seguro dental? Podría reducir el coste.'},
+    {type:'quickReplies',items:['Tengo Sanitas','No tengo seguro','Cancelar cita']}
+  ],
+  ai:[]
+};
+
+let currentMode='guided';
+let chatHistory=[];
+let isTyping=false;
+let playTimer=null;
+
+function selectScenario(name,btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  clearTimeout(playTimer);
+  isTyping=false;
+  chatHistory=[];
+  document.getElementById('chatMessages').innerHTML='';
+  document.getElementById('quickReplies').innerHTML='';
+  if(name==='ai'){
+    currentMode='ai';
+    document.getElementById('chatStatusLabel').textContent='● IA en vivo';
+    document.getElementById('userInput').placeholder='Escribe cualquier pregunta...';
+    addMsg('bot','Hola! Soy el asistente de IA de tu Clínica Dental. Puedes preguntarme sobre precios, tratamientos, citas o cualquier duda que tengas. ¿En qué puedo ayudarte?');
+  } else {
+    currentMode='guided';
+    document.getElementById('chatStatusLabel').textContent='● En línea ahora';
+    document.getElementById('userInput').placeholder='Escribe tu pregunta...';
+    playScenario(name);
+  }
+}
+
+function scrollChat(){
+  const el=document.getElementById('chatMessages');
+  el.scrollTop=el.scrollHeight;
+}
+
+function addMsg(type,text){
+  const el=document.getElementById('chatMessages');
+  if(type==='time'){
+    const d=document.createElement('div');
+    d.className='msg-time';
+    d.textContent=text;
+    el.appendChild(d);
+  } else {
+    const d=document.createElement('div');
+    d.className='msg '+type;
+    d.textContent=text;
+    el.appendChild(d);
+  }
+  scrollChat();
+}
+
+function showTyping(){
+  const el=document.getElementById('chatMessages');
+  const t=document.createElement('div');
+  t.className='typing';
+  t.id='typingDot';
+  t.innerHTML='<span></span><span></span><span></span>';
+  el.appendChild(t);
+  scrollChat();
+}
+
+function removeTyping(){
+  const t=document.getElementById('typingDot');
+  if(t)t.remove();
+}
+
+function addQR(items){
+  const el=document.getElementById('quickReplies');
+  el.innerHTML='';
+  items.forEach(item=>{
+    const b=document.createElement('button');
+    b.className='qr-btn';
+    b.textContent=item;
+    b.onclick=()=>{
+      if(currentMode==='ai'){
+        document.getElementById('userInput').value=item;
+        sendUserMsg();
+      } else {
+        b.style.background='#E8F0FF';
+        b.style.borderColor='#0084FF';
+      }
+    };
+    el.appendChild(b);
+  });
+}
+
+function playScenario(name){
+  const msgs=scenarios[name];
+  let i=0;
+  function next(){
+    if(i>=msgs.length)return;
+    const msg=msgs[i++];
+    if(msg.type==='time'){addMsg('time',msg.text);playTimer=setTimeout(next,400);}
+    else if(msg.type==='bot'){
+      showTyping();
+      const t=Math.min(msg.text.length*28,2800);
+      playTimer=setTimeout(()=>{removeTyping();addMsg('bot',msg.text);playTimer=setTimeout(next,700);},t);
+    } else if(msg.type==='user'){addMsg('user',msg.text);playTimer=setTimeout(next,500);}
+    else if(msg.type==='typing'){playTimer=setTimeout(next,200);}
+    else if(msg.type==='quickReplies'){addQR(msg.items);}
+  }
+  next();
+}
+
+async function callClaude(userMsg){
+  chatHistory.push({role:'user',content:userMsg});
+  const body={
+    model:'claude-sonnet-4-6',
+    max_tokens:1000,
+    system:SYSTEM_PROMPT,
+    messages:chatHistory
+  };
+  try{
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(body)
+    });
+    const data=await resp.json();
+    const reply=data.content?.[0]?.text||'Lo siento, ha habido un error. Por favor, inténtalo de nuevo.';
+    chatHistory.push({role:'assistant',content:reply});
+    return reply;
+  } catch(e){
+    return 'Lo siento, no puedo conectar ahora mismo. Por favor, llámanos al 910 000 000.';
+  }
+}
+
+async function sendUserMsg(){
+  const input=document.getElementById('userInput');
+  const text=input.value.trim();
+  if(!text||isTyping)return;
+  input.value='';
+  addMsg('user',text);
+  document.getElementById('quickReplies').innerHTML='';
+  isTyping=true;
+  showTyping();
+  if(currentMode==='ai'){
+    const reply=await callClaude(text);
+    removeTyping();
+    addMsg('bot',reply);
+    if(reply.toLowerCase().includes('cita')||reply.toLowerCase().includes('reservar')||reply.toLowerCase().includes('disponibilidad')){
+      addQR(['Confirmar cita','Otra fecha','Más información']);
+    }
+  } else {
+    await new Promise(r=>setTimeout(r,1500));
+    removeTyping();
+    addMsg('bot','Gracias por tu mensaje. Un miembro de nuestro equipo te contactará en breve para darte información personalizada.');
+  }
+  isTyping=false;
+}
+
+playScenario('precio');
+</script>
+</body>
+</html>
