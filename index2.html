@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo IA · Estética & Láser</title>
+<style>
+  @import url('https://googleapis.com');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0F172A;
+    --navy-soft: #1E293B;
+    --teal: #0EA5A0;
+    --teal-light: #E6F7F6;
+    --white: #FFFFFF;
+    --gray-500: #6B7280;
+    --gray-900: #111827;
+    --radius-md: 16px;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    min-height: 100vh;
+    line-height: 1.6;
+    padding-bottom: 60px;
+  }
+
+  .page { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+  header {
+    padding: 28px 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--white);
+    text-decoration: none;
+  }
+
+  .logo-dot { width: 28px; height: 28px; background: var(--teal); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 13px; }
+  .badge-header { background: rgba(14,165,160,0.15); border: 1px solid rgba(14,165,160,0.3); color: var(--teal); font-size: 12px; font-weight: 500; padding: 5px 14px; border-radius: 100px; }
+
+  .hero { padding: 50px 0 40px; text-align: center; }
+  .hero h1 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(32px, 5vw, 46px); font-weight: 400; line-height: 1.2; margin-bottom: 20px; }
+  .hero h1 em { font-style: italic; color: var(--teal); }
+  .hero-sub { font-size: 16px; color: rgba(255,255,255,0.6); max-width: 520px; margin: 0 auto; }
+
+  .demo-section { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; margin-top: 40px; }
+  @media (max-width: 768px) { .demo-section { grid-template-columns: 1fr; } }
+
+  .demo-info h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 28px; margin-bottom: 16px; }
+  .demo-info p { font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 20px; }
+  .feature-list { list-style: none; display: flex; flex-direction: column; gap: 12px; font-size: 14px; }
+  .feature-list li::before { content: '✨ '; color: var(--teal); }
+
+  .phone-wrap { display: flex; justify-content: center; }
+  .phone { width: 310px; background: #1A1A1A; border-radius: 40px; padding: 12px; box-shadow: 0 32px 64px rgba(0,0,0,0.5); }
+  .phone-screen { background: #F0F0F0; border-radius: 24px; overflow: hidden; height: 480px; display: flex; flex-direction: column; color: var(--gray-900); }
+
+  .chat-header { background: white; padding: 12px 14px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #EBEBEB; }
+  .chat-avatar { width: 34px; height: 34px; background: linear-gradient(135deg, #0EA5A0, #0B6B68); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 12px; }
+  .chat-name { font-size: 13px; font-weight: 600; }
+  .chat-status { font-size: 11px; color: #22C55E; }
+
+  .chat-messages { flex: 1; padding: 12px; display: flex; flex-direction: column; gap: 10px; overflow-y: auto; }
+  .msg { max-width: 82%; padding: 10px 13px; border-radius: 18px; font-size: 13px; line-height: 1.4; }
+  .msg.bot { background: white; align-self: flex-start; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+  .msg.user { background: #0084FF; color: white; align-self: flex-end; }
+
+  .typing { display: flex; gap: 4px; padding: 12px; background: white; border-radius: 18px; align-self: flex-start; }
+  .typing span { width: 6px; height: 6px; background: #9CA3AF; border-radius: 50%; display: inline-block; animation: bounce 1.2s infinite; }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
+
+  .quick-replies { display: flex; flex-direction: column; gap: 6px; padding: 10px; background: #F0F0F0; }
+  .qr-btn { background: white; border: 1px solid #D1D5DB; border-radius: 12px; padding: 8px 12px; font-size: 12px; color: #0084FF; font-weight: 500; cursor: pointer; text-align: left; }
+  .btn-link { background: #22C55E; color: white; text-decoration: none; padding: 10px; border-radius: 12px; display: block; text-align: center; font-weight: bold; margin-top: 8px; font-size: 12px; }
+  .chat-input-bar { background: white; padding: 12px; border-top: 1px solid #EBEBEB; font-size: 11px; color: var(--gray-500); }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <header>
+    <a href="#" class="logo"><div class="logo-dot">✨</div> LaserFlow IA</a>
+    <div class="badge-header">DEMO INTERACTIVA</div>
+  </header>
+
+  <section class="hero">
+    <h1>Automatiza la agenda de tu <em>centro de depilación láser</em></h1>
+    <p class="hero-sub">La IA responde dudas sobre zonas, bonos y reserva citas en tu agenda 24/7, incluso de noche y fines de semana.</p>
+  </section>
+
+  <section class="demo-section">
+    <div class="demo-info">
+      <h2>Prueba el simulador</h2>
+      <p>Simula la experiencia de un cliente que os escribe un sábado por la noche preguntando tarifas. Interactúa con los botones del teléfono móvil:</p>
+      <ul class="feature-list">
+        <li>Resolución de dudas sobre zonas y bonos.</li>
+        <li>Filtro de tipo de piel / última sesión.</li>
+        <li>Agendamiento directo en tu software de citas.</li>
+      </ul>
+    </div>
+
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="chat-header">
+            <div class="chat-avatar">LA</div>
+            <div>
+              <div class="chat-name">Clínica Láser (Asistente IA)</div>
+              <div class="chat-status">Responde al instante</div>
+            </div>
+          </div>
+          <div class="chat-messages" id="chat-messages"></div>
+          <div class="quick-replies" id="quick-replies"></div>
+          <div class="chat-input-bar">Selecciona una opción arriba para responder...</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  const chatMessages = document.getElementById('chat-messages');
+  const qrContainer = document.getElementById('quick-replies');
+
+  function showTyping(callback) {
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'typing';
+    typingDiv.id = 'temp-typing';
+    typingDiv.innerHTML = '<span></span><span style="animation-delay:0.2s"></span><span style="animation-delay:0.4s"></span>';
+    chatMessages.appendChild(typingDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    setTimeout(() => {
+      if (document.getElementById('temp-typing')) document.getElementById('temp-typing').remove();
+      callback();
+    }, 1100);
+  }
+
+  function addMessage(text, sender, isLink = false) {
+    const msg = document.createElement('div');
+    msg.className = `msg ${sender}`;
+    if (isLink) {
+      msg.innerHTML = `${text}<a href="#" class="btn-link" onclick="alert('¡Simulación de éxito! Redirigiendo a tu agenda de citas...'); return false;">📅 Reservar Cita Láser</a>`;
+    } else {
+      msg.textContent = text;
+    }
+    chatMessages.appendChild(msg);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  function setOptions(options) {
+    qrContainer.innerHTML = '';
+    options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'qr-btn';
+      btn.textContent = opt.text;
+      btn.onclick = () => {
+        qrContainer.innerHTML = '';
+        addMessage(opt.text, 'user');
+        setTimeout(() => { showTyping(() => { executeStep(opt.nextStep); }); }, 300);
+      };
+      qrContainer.appendChild(btn);
+    });
+  }
+
+  function executeStep(step) {
+    if (step === 1) {
+      addMessage("¡Hola! Gracias por escribirnos. Actualmente el centro está cerrado, pero nuestro asistente de IA te puede cotizar y agendar ahora mismo. ¿En qué zona estás interesada/o?", "bot");
+      setOptions([
+        { text: "👙 Pack Zonas (Axilas + Ingles + Piernas)", nextStep: 2 },
+        { text: "🧍‍♀️ Cuerpo Completo / Bonos", nextStep: 2 },
+        { text: "✏️ Consulta de zonas sueltas / tarifas", nextStep: 2 }
+      ]);
+    } else if (step === 2) {
+      addMessage("Perfecto, tenemos promociones activas para esa zona este mes. Una última pregunta para tu seguridad: ¿es tu primera vez haciéndote el láser con nosotros o ya eres cliente del centro?", "bot");
+      setOptions([
+        { text: "🙋‍♀️ Es mi primera sesión en vuestro centro", nextStep: 3 },
+        { text: "👍 Ya soy cliente y tengo un bono activo", nextStep: 3 }
+      ]);
+    } else if (step === 3) {
+      addMessage("¡Genial! Tenemos huecos disponibles para esta misma semana. Haz clic en el botón verde inferior para elegir el día y la hora que mejor te vengan en nuestra agenda digital en tiempo real:", "bot", true);
+    }
+  }
+
+  setTimeout(() => {
+    addMessage("Hola! Me podéis pasar precios de los bonos de láser y decir si tenéis citas libres?", "user");
+    setTimeout(() => { showTyping(() => { executeStep(1); }); }, 800);
+  }, 500);
+</script>
+</body>
+</html>
