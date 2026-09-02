@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AutoClientes.ai — Dashboard</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy: #0d1b2a;
+    --teal: #0ea5a0;
+    --teal-light: #e8fafa;
+    --gray: #6b7280;
+    --gray-light: #f3f4f6;
+    --white: #ffffff;
+    --red: #ef4444;
+    --green: #22c55e;
+    --orange: #f59e0b;
+  }
+
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    min-height: 100vh;
+  }
+
+  /* LOGIN */
+  #login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .login-box {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(14,165,160,0.3);
+    border-radius: 16px;
+    padding: 48px;
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
+  }
+
+  .login-box h1 { color: var(--teal); font-size: 1.4rem; margin-bottom: 8px; }
+  .login-box p { color: var(--gray); font-size: 0.9rem; margin-bottom: 32px; }
+
+  .login-box input {
+    width: 100%;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
+    margin-bottom: 16px;
+    outline: none;
+    text-align: center;
+    letter-spacing: 4px;
+  }
+
+  .login-box input:focus { border-color: var(--teal); }
+
+  .btn {
+    width: 100%;
+    padding: 12px;
+    background: var(--teal);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .btn:hover { opacity: 0.85; }
+
+  .error { color: var(--red); font-size: 0.85rem; margin-top: 12px; display: none; }
+
+  /* DASHBOARD */
+  #dashboard { display: none; }
+
+  header {
+    background: rgba(255,255,255,0.03);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  header .logo { color: var(--teal); font-size: 1.1rem; font-weight: 700; }
+  header .fecha { color: var(--gray); font-size: 0.85rem; }
+  header .logout { color: var(--gray); font-size: 0.8rem; cursor: pointer; text-decoration: underline; }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+
+  /* KPI GRID */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .kpi {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 24px 20px;
+  }
+
+  .kpi-label { color: var(--gray); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .kpi-value { font-size: 2rem; font-weight: 700; color: var(--white); }
+  .kpi-sub { color: var(--gray); font-size: 0.8rem; margin-top: 4px; }
+  .kpi.highlight { border-color: rgba(14,165,160,0.4); background: rgba(14,165,160,0.06); }
+  .kpi.highlight .kpi-value { color: var(--teal); }
+
+  /* SECCIONES */
+  .section-title {
+    font-size: 0.85rem;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+  @media(max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  .card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  .lead-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.88rem;
+  }
+  .lead-row:last-child { border-bottom: none; }
+  .lead-name { color: var(--white); font-weight: 500; }
+  .lead-email { color: var(--gray); font-size: 0.78rem; }
+  .badge {
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 600;
+  }
+  .badge.hot { background: rgba(239,68,68,0.15); color: #f87171; }
+  .badge.warm { background: rgba(245,158,11,0.15); color: #fbbf24; }
+  .badge.open { background: rgba(14,165,160,0.15); color: var(--teal); }
+  .badge.click { background: rgba(34,197,94,0.15); color: var(--green); }
+  .badge.stop { background: rgba(239,68,68,0.1); color: #f87171; }
+
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.85rem;
+    color: var(--gray);
+  }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-row span:last-child { color: var(--white); font-weight: 600; }
+
+  .progress-bar {
+    height: 4px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    margin-top: 6px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--teal);
+    border-radius: 2px;
+    transition: width 1s ease;
+  }
+
+  .updated { color: var(--gray); font-size: 0.75rem; text-align: center; margin-top: 32px; }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login">
+  <div class="login-box">
+    <h1>AutoClientes.ai</h1>
+    <p>Panel de control privado</p>
+    <input type="password" id="pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPass()">
+    <button class="btn" onclick="checkPass()">Acceder</button>
+    <p class="error" id="err">Contraseña incorrecta</p>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <header>
+    <span class="logo">AutoClientes.ai — Dashboard</span>
+    <span class="fecha" id="fecha"></span>
+    <span class="logout" onclick="logout()">Cerrar sesión</span>
+  </header>
+
+  <div class="container">
+
+    <!-- KPIs -->
+    <div class="kpi-grid">
+      <div class="kpi highlight">
+        <div class="kpi-label">Emails enviados</div>
+        <div class="kpi-value">89</div>
+        <div class="kpi-sub">Esta semana</div>
+      </div>
+      <div class="kpi highlight">
+        <div class="kpi-label">Aperturas reales</div>
+        <div class="kpi-value">17</div>
+        <div class="kpi-sub">19% tasa apertura</div>
+      </div>
+      <div class="kpi highlight">
+        <div class="kpi-label">Visitas demo</div>
+        <div class="kpi-value">3</div>
+        <div class="kpi-sub">Clics en la demo</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Pendientes</div>
+        <div class="kpi-value">37</div>
+        <div class="kpi-sub">Viernes 4 sep</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Bajas (STOP)</div>
+        <div class="kpi-value">2</div>
+        <div class="kpi-sub">Eliminadas</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Bounces</div>
+        <div class="kpi-value">8</div>
+        <div class="kpi-sub">Soft + Hard</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+
+      <!-- LEADS CALIENTES -->
+      <div class="card">
+        <div class="section-title">Leads calientes</div>
+
+        <div class="lead-row">
+          <div>
+            <div class="lead-name">HeferClinic Sevilla</div>
+            <div class="lead-email">heferclinic@heferclinic.com</div>
+          </div>
+          <span class="badge hot">5 aperturas</span>
+        </div>
+        <div class="lead-row">
+          <div>
+            <div class="lead-name">Dental Deluxe</div>
+            <div class="lead-email">clinica@dentaldeluxe.es</div>
+          </div>
+          <span class="badge hot">3 aperturas</span>
+        </div>
+        <div class="lead-row">
+          <div>
+            <div class="lead-name">Svenson Palma</div>
+            <div class="lead-email">info@svenson.es</div>
+          </div>
+          <span class="badge warm">3 aperturas</span>
+        </div>
+        <div class="lead-row">
+          <div>
+            <div class="lead-name">Capilclinic</div>
+            <div class="lead-email">info@capilclinic.es</div>
+          </div>
+          <span class="badge warm">3 aperturas</span>
+        </div>
+        <div class="lead-row">
+          <div>
+            <div class="lead-name">Área Capilar</div>
+            <div class="lead-email">info@areacapilar.com</div>
+          </div>
+          <span class="badge click">Visitó demo</span>
+        </div>
+        <div class="lead-row">
+          <div>
+            <div class="lead-name">Artdenta Valencia</div>
+            <div class="lead-email">info@artdenta.es</div>
+          </div>
+          <span class="badge click">Demo + LinkedIn</span>
+        </div>
+        <div class="lead-row">
+          <div>
+            <div class="lead-name">Nart Barcelona</div>
+            <div class="lead-email">jose@nartperiodoncia.com</div>
+          </div>
+          <span class="badge click">Visitó demo</span>
+        </div>
+      </div>
+
+      <!-- ESTADÍSTICAS -->
+      <div class="card">
+        <div class="section-title">Estadísticas acumuladas</div>
+
+        <div class="stat-row">
+          <span>Emails en base de datos</span>
+          <span>134</span>
+        </div>
+        <div class="stat-row">
+          <span>Emails enviados total</span>
+          <span>89</span>
+        </div>
+        <div class="stat-row">
+          <span>Tasa de apertura</span>
+          <span>19%</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:19%"></div></div>
+
+        <div class="stat-row" style="margin-top:12px;">
+          <span>Tasa de clic demo</span>
+          <span>3.4%</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:3.4%"></div></div>
+
+        <div class="stat-row" style="margin-top:12px;">
+          <span>Bajas (STOP)</span>
+          <span>2</span>
+        </div>
+        <div class="stat-row">
+          <span>Hard bounces</span>
+          <span>2</span>
+        </div>
+        <div class="stat-row">
+          <span>Soft bounces</span>
+          <span>6</span>
+        </div>
+        <div class="stat-row">
+          <span>Clínicas en Google Maps</span>
+          <span>140</span>
+        </div>
+        <div class="stat-row">
+          <span>Próximo envío</span>
+          <span>Vie 4 sep — 37 emails</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CANAL DE ENVÍOS -->
+    <div class="card" style="margin-bottom:24px;">
+      <div class="section-title">Actividad de la semana</div>
+      <div class="stat-row"><span>Lunes 1 sep</span><span>46 emails enviados</span></div>
+      <div class="stat-row"><span>Martes 2 sep</span><span>3 follow-ups — Área Capilar, Artdenta, Nart</span></div>
+      <div class="stat-row"><span>Miércoles 3 sep</span><span>40 emails enviados · 14 aperturas · 1 STOP</span></div>
+      <div class="stat-row"><span>Jueves 4 sep</span><span>Follow-up leads calientes</span></div>
+      <div class="stat-row"><span>Viernes 5 sep</span><span>37 emails automáticos (nuevo mensaje)</span></div>
+    </div>
+
+    <p class="updated">Última actualización manual · AutoClientes.ai · canal.IA</p>
+  </div>
+</div>
+
+<script>
+  const PASSWORD = "autoclientes2026";
+
+  function checkPass() {
+    const val = document.getElementById('pass').value;
+    if (val === PASSWORD) {
+      document.getElementById('login').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'block';
+      document.getElementById('fecha').textContent = new Date().toLocaleDateString('es-ES', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
+      sessionStorage.setItem('ac_auth', '1');
+    } else {
+      document.getElementById('err').style.display = 'block';
+    }
+  }
+
+  function logout() {
+    sessionStorage.removeItem('ac_auth');
+    document.getElementById('login').style.display = 'flex';
+    document.getElementById('dashboard').style.display = 'none';
+    document.getElementById('pass').value = '';
+  }
+
+  // Auto-login si ya estaba autenticado
+  if (sessionStorage.getItem('ac_auth')) {
+    document.getElementById('login').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    document.getElementById('fecha').textContent = new Date().toLocaleDateString('es-ES', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
+  }
+</script>
+</body>
+</html>
