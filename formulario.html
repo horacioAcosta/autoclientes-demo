@@ -119,10 +119,31 @@ if (negocioParam) {
 async function enviarFormulario() {
   const nombre = document.getElementById('nombre').value.trim();
   const telefono = document.getElementById('telefono').value.trim();
+  const email = document.getElementById('email').value.trim();
   const consulta = document.getElementById('consulta').value.trim();
 
-  if (!nombre || !telefono || !consulta) {
-    alert('Por favor rellene los campos obligatorios.');
+  // Validación nombre — mínimo 3 caracteres, solo letras y espacios
+  if (!nombre || nombre.length < 3 || !/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+$/.test(nombre)) {
+    alert('Por favor introduzca su nombre completo.');
+    return;
+  }
+
+  // Validación teléfono — 9 dígitos mínimo
+  const telLimpio = telefono.replace(/[\s\-\+]/g, '');
+  if (!telLimpio || !/^\d{9,12}$/.test(telLimpio)) {
+    alert('Por favor introduzca un teléfono válido (9 dígitos).');
+    return;
+  }
+
+  // Validación email — si lo rellena, que sea válido
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    alert('Por favor introduzca un email válido.');
+    return;
+  }
+
+  // Validación consulta — mínimo 10 caracteres
+  if (!consulta || consulta.length < 10) {
+    alert('Por favor describa su consulta con más detalle.');
     return;
   }
 
