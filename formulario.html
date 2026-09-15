@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contacto — [Nombre negocio]</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #06060f;
+    --surface: #13132b;
+    --border: rgba(99,102,241,.18);
+    --indigo: #6366f1;
+    --cyan: #06b6d4;
+    --white: #eeeeff;
+    --muted: #7878a0;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--white); min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px; }
+  body::before {
+    content:''; position:fixed; inset:0; z-index:0;
+    background-image: linear-gradient(rgba(99,102,241,.05) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(99,102,241,.05) 1px, transparent 1px);
+    background-size: 40px 40px; pointer-events:none;
+  }
+  .wrap { position:relative; z-index:1; width:100%; max-width:480px; }
+  .logo { text-align:center; margin-bottom:32px; }
+  .logo h1 { font-size:1.4rem; font-weight:700; }
+  .logo p { color:var(--muted); font-size:.9rem; margin-top:6px; }
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:32px; }
+  .card h2 { font-size:1.1rem; font-weight:600; margin-bottom:8px; }
+  .card p { color:var(--muted); font-size:.88rem; margin-bottom:24px; }
+  .field { margin-bottom:16px; }
+  label { display:block; font-size:.82rem; color:var(--muted); margin-bottom:6px; }
+  input, textarea, select {
+    width:100%; background:rgba(99,102,241,.08); border:1px solid var(--border);
+    border-radius:8px; padding:12px 14px; color:var(--white); font-family:inherit;
+    font-size:.9rem; outline:none; transition:border .2s;
+  }
+  input:focus, textarea:focus, select:focus { border-color:var(--indigo); }
+  textarea { resize:vertical; min-height:100px; }
+  select option { background:#13132b; }
+  .btn { width:100%; background:linear-gradient(90deg,var(--indigo),var(--cyan));
+         color:white; border:none; padding:14px; border-radius:8px; font-size:1rem;
+         font-weight:600; cursor:pointer; font-family:inherit; margin-top:8px; }
+  .btn:hover { opacity:.9; }
+  .success { display:none; text-align:center; padding:32px; }
+  .success h3 { color:var(--cyan); font-size:1.2rem; margin-bottom:12px; }
+  .success p { color:var(--muted); font-size:.9rem; }
+  .footer { text-align:center; margin-top:20px; font-size:.75rem; color:var(--muted); }
+  .footer a { color:var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo">
+    <h1 id="nombre-negocio">Taller García</h1>
+    <p>Envíenos su consulta — le respondemos en menos de 1 hora</p>
+  </div>
+
+  <div class="card">
+    <div id="formulario">
+      <h2>¿En qué podemos ayudarle?</h2>
+      <p>Rellene el formulario y nos pondremos en contacto con usted lo antes posible.</p>
+
+      <div class="field">
+        <label>Nombre completo *</label>
+        <input type="text" id="nombre" placeholder="Su nombre" required>
+      </div>
+      <div class="field">
+        <label>Teléfono *</label>
+        <input type="tel" id="telefono" placeholder="612 345 678" required>
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="email" placeholder="su@email.com">
+      </div>
+      <div class="field">
+        <label>¿En qué podemos ayudarle? *</label>
+        <textarea id="consulta" placeholder="Cuéntenos su consulta..." required></textarea>
+      </div>
+      <div class="field">
+        <label>¿Cuándo prefiere que le contactemos?</label>
+        <select id="horario">
+          <option value="">Sin preferencia</option>
+          <option value="manana">Por la mañana (9-13h)</option>
+          <option value="tarde">Por la tarde (15-19h)</option>
+          <option value="cualquier">Cualquier momento</option>
+        </select>
+      </div>
+
+      <button class="btn" onclick="enviarFormulario()">Enviar consulta →</button>
+    </div>
+
+    <div class="success" id="exito">
+      <h3>✅ Consulta recibida</h3>
+      <p>Gracias por contactar con nosotros.<br>Le respondemos en menos de 1 hora.</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <a href="https://autoclientes.canal-ia.com/privacidad-pymes.html">Política de privacidad</a>
+    · Powered by <a href="https://canal-ia.com">canal.IA</a>
+  </div>
+</div>
+
+<script>
+async function enviarFormulario() {
+  const nombre = document.getElementById('nombre').value.trim();
+  const telefono = document.getElementById('telefono').value.trim();
+  const consulta = document.getElementById('consulta').value.trim();
+
+  if (!nombre || !telefono || !consulta) {
+    alert('Por favor rellene los campos obligatorios.');
+    return;
+  }
+
+  const btn = document.querySelector('.btn');
+  btn.textContent = 'Enviando...';
+  btn.disabled = true;
+
+  try {
+    const r = await fetch('https://webhook.canal-ia.com/formulario', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        nombre,
+        telefono,
+        email: document.getElementById('email').value.trim(),
+        consulta,
+        horario: document.getElementById('horario').value,
+        negocio: document.getElementById('nombre-negocio').textContent
+      })
+    });
+
+    if (r.ok) {
+      document.getElementById('formulario').style.display = 'none';
+      document.getElementById('exito').style.display = 'block';
+    } else {
+      throw new Error();
+    }
+  } catch {
+    btn.textContent = 'Enviar consulta →';
+    btn.disabled = false;
+    alert('Ha ocurrido un error. Por favor inténtelo de nuevo.');
+  }
+}
+</script>
+</body>
+</html>
