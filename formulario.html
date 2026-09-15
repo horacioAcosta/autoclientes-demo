@@ -105,6 +105,17 @@
 </div>
 
 <script>
+// Leer parámetros de la URL
+const params = new URLSearchParams(window.location.search);
+const negocioParam = params.get('negocio');
+const emailNegocio = params.get('email') || 'contacto@canal-ia.com';
+
+if (negocioParam) {
+  document.getElementById('nombre-negocio').textContent = negocioParam;
+  document.title = 'Contacto — ' + negocioParam;
+  document.querySelector('.logo p').textContent = 'Envíenos su consulta — le respondemos en menos de 1 hora';
+}
+
 async function enviarFormulario() {
   const nombre = document.getElementById('nombre').value.trim();
   const telefono = document.getElementById('telefono').value.trim();
