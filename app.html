@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#06060f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>canal.IA — App</title>
+<link rel="manifest" href="/manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#06060f;--bg2:#0c0c1e;--surface:#13132b;--border:rgba(99,102,241,.18);--indigo:#6366f1;--cyan:#06b6d4;--white:#eeeeff;--muted:#7878a0;--green:#22c55e;--red:#ef4444;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--white);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(99,102,241,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
+.wrap{position:relative;z-index:1;max-width:480px;margin:0 auto;padding:0 0 80px;}
+
+/* HEADER */
+.header{padding:20px 16px 12px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);}
+.logo{font-size:1.1rem;font-weight:700;background:linear-gradient(90deg,var(--indigo),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.badge{background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);color:var(--green);padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:600;}
+
+/* TABS */
+.tabs{display:flex;gap:4px;padding:12px 16px;overflow-x:auto;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{flex-shrink:0;padding:8px 16px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:.82rem;font-family:inherit;cursor:pointer;transition:all .2s;}
+.tab.active{background:linear-gradient(90deg,var(--indigo),var(--cyan));color:white;border-color:transparent;}
+
+/* SECTION */
+.section{display:none;padding:0 16px;}
+.section.active{display:block;}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px;}
+.card-title{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px;}
+
+/* KPIs */
+.kpi-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.kpi{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px;}
+.kpi-val{font-size:1.6rem;font-weight:700;background:linear-gradient(90deg,var(--indigo),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.kpi-label{font-size:.72rem;color:var(--muted);margin-top:2px;}
+
+/* CHAT */
+.chat-area{height:320px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:12px;padding:4px 0;}
+.msg{max-width:85%;padding:10px 14px;border-radius:12px;font-size:.88rem;line-height:1.5;}
+.msg.user{background:linear-gradient(90deg,var(--indigo),var(--cyan));color:white;align-self:flex-end;border-radius:12px 12px 2px 12px;}
+.msg.agent{background:var(--bg2);border:1px solid var(--border);color:var(--white);align-self:flex-start;border-radius:12px 12px 12px 2px;}
+.msg.typing{background:var(--bg2);border:1px solid var(--border);align-self:flex-start;border-radius:12px 12px 12px 2px;padding:12px 16px;}
+.dot{display:inline-block;width:6px;height:6px;background:var(--muted);border-radius:50%;animation:dot 1.2s infinite;margin:0 2px;}
+.dot:nth-child(2){animation-delay:.2s;}
+.dot:nth-child(3){animation-delay:.4s;}
+@keyframes dot{0%,80%,100%{transform:scale(0.8);opacity:.5}40%{transform:scale(1);opacity:1}}
+
+.chat-input{display:flex;gap:8px;}
+.chat-input input{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--white);font-family:inherit;font-size:.9rem;outline:none;}
+.chat-input input:focus{border-color:var(--indigo);}
+.btn-send{background:linear-gradient(90deg,var(--indigo),var(--cyan));border:none;color:white;padding:10px 16px;border-radius:8px;cursor:pointer;font-size:1rem;}
+
+/* CANAL SELECTOR */
+.canal-select{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.canal-btn{padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--bg2);color:var(--muted);font-family:inherit;font-size:.82rem;cursor:pointer;text-align:center;transition:all .2s;}
+.canal-btn.active{border-color:var(--indigo);color:var(--indigo);background:rgba(99,102,241,.1);}
+
+/* CRM */
+.contacto{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
+.contacto:last-child{border-bottom:none;}
+.avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--indigo),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:700;flex-shrink:0;}
+.contacto-info{flex:1;}
+.contacto-nombre{font-size:.9rem;font-weight:500;}
+.contacto-meta{font-size:.75rem;color:var(--muted);}
+.estado-badge{font-size:.68rem;padding:2px 8px;border-radius:10px;font-weight:600;}
+.estado-nuevo{background:rgba(6,182,212,.15);color:var(--cyan);}
+.estado-proceso{background:rgba(99,102,241,.15);color:var(--indigo);}
+.estado-cliente{background:rgba(34,197,94,.15);color:var(--green);}
+
+/* TRAINING */
+.training-item{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px;}
+.training-msg{font-size:.82rem;color:var(--muted);margin-bottom:8px;}
+.training-resp{font-size:.85rem;line-height:1.5;margin-bottom:12px;}
+.training-actions{display:flex;gap:8px;}
+.btn-accept{flex:1;background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);color:var(--green);padding:8px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:.82rem;}
+.btn-reject{flex:1;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:var(--red);padding:8px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:.82rem;}
+
+/* RAG */
+.upload-area{border:2px dashed var(--border);border-radius:10px;padding:24px;text-align:center;cursor:pointer;margin-bottom:12px;transition:border-color .2s;}
+.upload-area:hover{border-color:var(--indigo);}
+.upload-icon{font-size:2rem;margin-bottom:8px;}
+.upload-text{font-size:.85rem;color:var(--muted);}
+.doc-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);}
+.doc-icon{font-size:1.2rem;}
+.doc-info{flex:1;}
+.doc-nombre{font-size:.85rem;}
+.doc-tipo{font-size:.72rem;color:var(--muted);}
+.doc-estado{font-size:.72rem;color:var(--green);}
+
+/* NAV BOTTOM */
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--bg2);border-top:1px solid var(--border);display:flex;z-index:10;}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;padding:10px 0;cursor:pointer;color:var(--muted);font-size:.65rem;gap:4px;transition:color .2s;}
+.nav-item.active{color:var(--indigo);}
+.nav-icon{font-size:1.3rem;}
+
+/* INPUT CANAL */
+.input-group{margin-bottom:10px;}
+.input-group label{display:block;font-size:.75rem;color:var(--muted);margin-bottom:4px;}
+.input-group input,.input-group textarea{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--white);font-family:inherit;font-size:.88rem;outline:none;}
+.input-group input:focus,.input-group textarea:focus{border-color:var(--indigo);}
+.input-group textarea{resize:vertical;min-height:80px;}
+.btn-primary{width:100%;background:linear-gradient(90deg,var(--indigo),var(--cyan));border:none;color:white;padding:12px;border-radius:8px;cursor:pointer;font-family:inherit;font-size:.95rem;font-weight:600;margin-top:4px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo">canal.IA</div>
+    <div class="badge">● Sistema activo</div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('dashboard')">📊 Dashboard</button>
+    <button class="tab" onclick="showTab('chat')">💬 Chat</button>
+    <button class="tab" onclick="showTab('crm')">👥 CRM</button>
+    <button class="tab" onclick="showTab('training')">🎯 Training</button>
+    <button class="tab" onclick="showTab('rag')">📚 RAG</button>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="section active" id="tab-dashboard">
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-val" id="d-contactos">—</div><div class="kpi-label">Contactos CRM</div></div>
+      <div class="kpi"><div class="kpi-val" id="d-mensajes">—</div><div class="kpi-label">Mensajes hoy</div></div>
+      <div class="kpi"><div class="kpi-val" id="d-docs">—</div><div class="kpi-label">Docs RAG</div></div>
+      <div class="kpi"><div class="kpi-val" id="d-training">—</div><div class="kpi-label">En revisión</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Canales activos</div>
+      <div class="contacto">
+        <div class="avatar">📧</div>
+        <div class="contacto-info"><div class="contacto-nombre">Agente Email</div><div class="contacto-meta">webhook/agente-email</div></div>
+        <span class="estado-badge estado-cliente">Activo</span>
+      </div>
+      <div class="contacto">
+        <div class="avatar">🌐</div>
+        <div class="contacto-info"><div class="contacto-nombre">Agente Web</div><div class="contacto-meta">webhook/agente-web</div></div>
+        <span class="estado-badge estado-cliente">Activo</span>
+      </div>
+      <div class="contacto">
+        <div class="avatar">📸</div>
+        <div class="contacto-info"><div class="contacto-nombre">Instagram</div><div class="contacto-meta">Pendiente verificación Meta</div></div>
+        <span class="estado-badge estado-proceso">Pronto</span>
+      </div>
+      <div class="contacto">
+        <div class="avatar">📞</div>
+        <div class="contacto-info"><div class="contacto-nombre">Llamadas Voz</div><div class="contacto-meta">Twilio — próxima fase</div></div>
+        <span class="estado-badge estado-nuevo">Planificado</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Actividad reciente</div>
+      <div id="actividad-crm"><div style="color:var(--muted);font-size:.85rem;">Cargando...</div></div>
+    </div>
+  </div>
+
+  <!-- CHAT -->
+  <div class="section" id="tab-chat">
+    <div class="card">
+      <div class="card-title">Canal</div>
+      <div class="canal-select">
+        <button class="canal-btn active" onclick="setCanal('web',this)">🌐 Web</button>
+        <button class="canal-btn" onclick="setCanal('email',this)">📧 Email</button>
+        <button class="canal-btn" onclick="setCanal('training',this)">🎯 Training</button>
+        <button class="canal-btn" onclick="setCanal('rag',this)">📚 RAG test</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Conversación — <span id="canal-actual">Web</span></div>
+      <div class="chat-area" id="chat-area">
+        <div class="msg agent">¡Hola! Soy el asistente de canal.IA. ¿En qué puedo ayudarle?</div>
+      </div>
+      <div class="chat-input">
+        <input type="text" id="chat-input" placeholder="Escriba su mensaje..." onkeydown="if(event.key==='Enter')enviarMensaje()">
+        <button class="btn-send" onclick="enviarMensaje()">➤</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CRM -->
+  <div class="section" id="tab-crm">
+    <div class="card">
+      <div class="card-title">Contactos</div>
+      <div id="lista-crm"><div style="color:var(--muted);font-size:.85rem;">Cargando...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Añadir contacto manual</div>
+      <div class="input-group"><label>Nombre</label><input type="text" id="crm-nombre" placeholder="Nombre del contacto"></div>
+      <div class="input-group"><label>Email</label><input type="email" id="crm-email" placeholder="email@negocio.com"></div>
+      <div class="input-group"><label>Negocio</label><input type="text" id="crm-negocio" placeholder="Nombre del negocio"></div>
+      <button class="btn-primary" onclick="añadirContacto()">Guardar contacto</button>
+    </div>
+  </div>
+
+  <!-- TRAINING -->
+  <div class="section" id="tab-training">
+    <div class="card">
+      <div class="card-title">Respuestas pendientes de revisión</div>
+      <div id="lista-training"><div style="color:var(--muted);font-size:.85rem;">Cargando...</div></div>
+    </div>
+  </div>
+
+  <!-- RAG -->
+  <div class="section" id="tab-rag">
+    <div class="card">
+      <div class="card-title">Añadir documento al RAG</div>
+      <div class="input-group"><label>Nombre del documento</label><input type="text" id="rag-nombre" placeholder="ej. FAQ clínicas"></div>
+      <div class="input-group"><label>Tipo</label><input type="text" id="rag-tipo" placeholder="txt, md, web, pdf"></div>
+      <div class="input-group"><label>Contenido</label><textarea id="rag-contenido" placeholder="Pega aquí el contenido del documento..."></textarea></div>
+      <button class="btn-primary" onclick="subirRAG()">Procesar y guardar en RAG</button>
+    </div>
+    <div class="card">
+      <div class="card-title">Documentos en RAG</div>
+      <div id="lista-rag"><div style="color:var(--muted);font-size:.85rem;">Cargando...</div></div>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+
+<!-- NAV BOTTOM -->
+<div class="nav">
+  <div class="nav-item active" onclick="showTab('dashboard');setNav(this)"><span class="nav-icon">📊</span>Dashboard</div>
+  <div class="nav-item" onclick="showTab('chat');setNav(this)"><span class="nav-icon">💬</span>Chat</div>
+  <div class="nav-item" onclick="showTab('crm');setNav(this)"><span class="nav-icon">👥</span>CRM</div>
+  <div class="nav-item" onclick="showTab('training');setNav(this)"><span class="nav-icon">🎯</span>Training</div>
+  <div class="nav-item" onclick="showTab('rag');setNav(this)"><span class="nav-icon">📚</span>RAG</div>
+</div>
+
+<script>
+const API_BASE = 'https://webhook.canal-ia.com/app'
+// Claves gestionadas en servidor
+const N8N_BASE = 'https://n8n.canal-ia.com/webhook'
+let canalActual = 'web'
+
+// ── NAVEGACIÓN ──────────────────────────────────────
+function showTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'))
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'))
+  document.getElementById('tab-'+id).classList.add('active')
+  if(id==='crm') cargarCRM()
+  if(id==='training') cargarTraining()
+  if(id==='rag') cargarRAG()
+  if(id==='dashboard') cargarDashboard()
+}
+function setNav(el) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'))
+  el.classList.add('active')
+}
+function setCanal(canal, el) {
+  canalActual = canal
+  document.querySelectorAll('.canal-btn').forEach(b => b.classList.remove('active'))
+  el.classList.add('active')
+  document.getElementById('canal-actual').textContent = el.textContent.trim()
+}
+
+// ── SUPABASE ────────────────────────────────────────
+async function sb(endpoint, opts={}) {
+  const base = endpoint.startsWith('crm_contactos') ? 'crm' :
+               endpoint.startsWith('training_queue') ? 'training' :
+               endpoint.startsWith('rag_documentos') ? 'rag' : 'crm'
+  const r = await fetch(`${API_BASE}/${base}`, {
+    method: opts.method || 'GET',
+    headers: {'Content-Type': 'application/json'},
+    body: opts.body || undefined
+  })
+  return r.json()
+}
+
+// ── DASHBOARD ───────────────────────────────────────
+async function cargarDashboard() {
+  const data = await fetch(`${API_BASE}/dashboard`).then(r=>r.json())
+  document.getElementById('d-contactos').textContent = data.contactos || '0'
+  document.getElementById('d-mensajes').textContent = data.mensajes || '0'
+  document.getElementById('d-docs').textContent = data.docs || '0'
+  document.getElementById('d-training').textContent = data.training || '0'
+  const recientes = data.recientes || []
+  const act = document.getElementById('actividad-crm')
+  if(!recientes.length){act.innerHTML='<div style="color:var(--muted);font-size:.85rem;">Sin actividad aún</div>';return}
+  act.innerHTML = recientes.map(c=>`
+    <div class="contacto">
+      <div class="avatar">${c.canal==='email'?'📧':c.canal==='web'?'🌐':'💬'}</div>
+      <div class="contacto-info">
+        <div class="contacto-nombre">${c.nombre||c.email}</div>
+        <div class="contacto-meta">${c.canal} · ${new Date(c.creado_at).toLocaleDateString('es-ES')}</div>
+      </div>
+      <span class="estado-badge estado-${c.estado==='cliente'?'cliente':c.estado==='en_proceso'?'proceso':'nuevo'}">${c.estado}</span>
+    </div>`).join('')
+}
+
+// ── CHAT ────────────────────────────────────────────
+async function enviarMensaje() {
+  const input = document.getElementById('chat-input')
+  const msg = input.value.trim()
+  if(!msg) return
+  input.value = ''
+
+  const area = document.getElementById('chat-area')
+  area.innerHTML += `<div class="msg user">${msg}</div>`
+  area.innerHTML += `<div class="msg typing" id="typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>`
+  area.scrollTop = area.scrollHeight
+
+  const endpoint = canalActual === 'training' ? 'training-review' :
+                   canalActual === 'rag' ? 'agente-web' : `agente-${canalActual}`
+
+  try {
+    const r = await fetch(`${N8N_BASE}/${endpoint}`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({mensaje: msg, nombre: 'Usuario App', email: 'app@canal-ia.com', canal: canalActual})
+    })
+    const data = await r.json()
+    document.getElementById('typing')?.remove()
+    const resp = data.respuesta || data.mensaje || 'Respuesta recibida'
+    area.innerHTML += `<div class="msg agent">${resp}</div>`
+    area.scrollTop = area.scrollHeight
+  } catch(e) {
+    document.getElementById('typing')?.remove()
+    area.innerHTML += `<div class="msg agent">Error de conexión. Por favor inténtelo de nuevo.</div>`
+  }
+}
+
+// ── CRM ─────────────────────────────────────────────
+async function cargarCRM() {
+  const data = await fetch(`${API_BASE}/crm`).then(r=>r.json())
+  const lista = document.getElementById('lista-crm')
+  if(!data.length){lista.innerHTML='<div style="color:var(--muted);font-size:.85rem;">Sin contactos aún</div>';return}
+  lista.innerHTML = data.map(c=>`
+    <div class="contacto">
+      <div class="avatar">${(c.nombre||c.email||'?')[0].toUpperCase()}</div>
+      <div class="contacto-info">
+        <div class="contacto-nombre">${c.nombre||'Sin nombre'}</div>
+        <div class="contacto-meta">${c.email} · ${c.canal||'web'}</div>
+      </div>
+      <span class="estado-badge estado-${c.estado==='cliente'?'cliente':c.estado==='en_proceso'?'proceso':'nuevo'}">${c.estado}</span>
+    </div>`).join('')
+}
+
+async function añadirContacto() {
+  const nombre = document.getElementById('crm-nombre').value.trim()
+  const email = document.getElementById('crm-email').value.trim()
+  const negocio = document.getElementById('crm-negocio').value.trim()
+  if(!email){alert('El email es obligatorio');return}
+  await fetch(`${API_BASE}/crm`, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nombre,email,negocio,canal:'manual',estado:'nuevo'})})
+  document.getElementById('crm-nombre').value=''
+  document.getElementById('crm-email').value=''
+  document.getElementById('crm-negocio').value=''
+  cargarCRM()
+  cargarDashboard()
+}
+
+// ── TRAINING ────────────────────────────────────────
+async function cargarTraining() {
+  const data = await fetch(`${API_BASE}/training`).then(r=>r.json())
+  const lista = document.getElementById('lista-training')
+  if(!data.length){lista.innerHTML='<div style="color:var(--muted);font-size:.85rem;">Sin respuestas pendientes ✅</div>';return}
+  lista.innerHTML = data.map(t=>`
+    <div class="training-item" id="tr-${t.id}">
+      <div class="training-msg">📩 ${t.mensaje_original}</div>
+      <div class="training-resp">${t.respuesta_propuesta}</div>
+      <div class="training-actions">
+        <button class="btn-accept" onclick="aprobarTraining(${t.id})">✅ Aprobar</button>
+        <button class="btn-reject" onclick="descartarTraining(${t.id})">❌ Descartar</button>
+      </div>
+    </div>`).join('')
+}
+
+async function aprobarTraining(id) {
+  await fetch(`${API_BASE}/training/${id}`, {method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({estado:'aprobado'})})
+  document.getElementById(`tr-${id}`)?.remove()
+}
+async function descartarTraining(id) {
+  await fetch(`${API_BASE}/training/${id}`, {method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({estado:'descartado'})})
+  document.getElementById(`tr-${id}`)?.remove()
+}
+
+// ── RAG ─────────────────────────────────────────────
+async function subirRAG() {
+  const nombre = document.getElementById('rag-nombre').value.trim()
+  const tipo = document.getElementById('rag-tipo').value.trim() || 'txt'
+  const contenido = document.getElementById('rag-contenido').value.trim()
+  if(!nombre||!contenido){alert('Nombre y contenido son obligatorios');return}
+  const btn = document.querySelector('#tab-rag .btn-primary')
+  btn.textContent = 'Procesando...'
+  btn.disabled = true
+  try {
+    const r = await fetch(`${N8N_BASE}/rag-ingest`, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({nombre,tipo,contenido})
+    })
+    const data = await r.json()
+    if(data.estado==='ok'){
+      document.getElementById('rag-nombre').value=''
+      document.getElementById('rag-tipo').value=''
+      document.getElementById('rag-contenido').value=''
+      cargarRAG()
+      cargarDashboard()
+    }
+  } finally {
+    btn.textContent = 'Procesar y guardar en RAG'
+    btn.disabled = false
+  }
+}
+
+async function cargarRAG() {
+  const data = await fetch(`${API_BASE}/rag`).then(r=>r.json())
+  const lista = document.getElementById('lista-rag')
+  if(!data.length){lista.innerHTML='<div style="color:var(--muted);font-size:.85rem;">Sin documentos aún</div>';return}
+  lista.innerHTML = data.map(d=>`
+    <div class="doc-item">
+      <div class="doc-icon">${d.tipo==='pdf'?'📄':d.tipo==='web'?'🌐':'📝'}</div>
+      <div class="doc-info">
+        <div class="doc-nombre">${d.nombre}</div>
+        <div class="doc-tipo">${d.tipo} · ${new Date(d.creado_at).toLocaleDateString('es-ES')}</div>
+      </div>
+      <div class="doc-estado">✅ Indexado</div>
+    </div>`).join('')
+}
+
+// ── INIT ────────────────────────────────────────────
+cargarDashboard()
+</script>
+</body>
+</html>
