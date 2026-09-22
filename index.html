@@ -184,48 +184,34 @@ header{padding:28px 0 24px;display:flex;align-items:center;justify-content:space
 </section>
  
 <section class="pricing-section">
-  <p class="section-label">Planes</p>
-  <h2 class="section-title">Un paciente lo paga todo</h2>
-  <p class="section-sub">Si el sistema recupera una sola cita al mes que se perdía por falta de respuesta, ya cubriste tu inversión. Todo lo demás es ganancia.</p>
-  <div class="pricing-grid">
-    <div class="plan-card">
-      <div class="plan-name">Plan Esencial</div>
-      <div class="plan-price"><span class="currency">€</span><span class="amount">299</span><span class="period">/mes</span></div>
-      <div class="plan-setup">Setup único: <strong>799 €</strong></strong></strong></div>
-      <ul class="plan-features">
-        <li>Respuestas automáticas en Instagram y WhatsApp</li>
-        <li>Flujo guiado de preguntas frecuentes</li>
-        <li>Resumen del paciente entregado al equipo para confirmar la cita</li>
-        <li>Notificación al equipo por cada lead</li>
-        <li>Informe semanal con resumen de contactos y estado</li>
-      </ul>
-      <a class="plan-cta secondary" href="mailto:contacto@canal-ia.com?subject=Quiero empezar la prueba gratuita">Empezar gratis 15 días</a>
+  <div class="section-label">Cómo funciona</div>
+  <h2 class="section-title">De la consulta a la cita — en menos de 1 minuto</h2>
+  <p class="section-sub">El sistema trabaja mientras su equipo descansa. Usted llega por la mañana con todo resuelto.</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:32px;">
+    <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:24px;text-align:center;">
+      <div style="font-size:32px;margin-bottom:12px;">💬</div>
+      <div style="font-weight:600;margin-bottom:8px;">1. Paciente escribe</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.5);">Por WhatsApp, web o email — a cualquier hora</div>
     </div>
-    <div class="plan-card featured">
-      <div class="plan-badge">MÁS POPULAR</div>
-      <div class="plan-name">Plan Pro Médico</div>
-      <div class="plan-price"><span class="currency">€</span><span class="amount">499</span><span class="period">/mes</span></div>
-      <div class="plan-setup">Setup único: <strong>799 €</strong></strong></div>
-      <ul class="plan-features">
-        <li>Todo el Plan Esencial incluido</li>
-        <li>IA conversacional avanzada — responde preguntas de tratamientos, precios y disponibilidad</li>
-        <li>Cualificación por seguro, presupuesto e historial</li>
-        <li>Cualificación por seguro, presupuesto e historial</li>
-        <li>Soporte prioritario</li>
-        <li>Soporte prioritario</li>
-      </ul>
-      <button class="plan-cta primary" onclick="alert('Te contactaremos en menos de 24h')">Solicitar demo personalizada</button>
+    <div style="background:rgba(14,165,160,0.08);border:1px solid rgba(14,165,160,0.3);border-radius:12px;padding:24px;text-align:center;">
+      <div style="font-size:32px;margin-bottom:12px;">⚡</div>
+      <div style="font-weight:600;margin-bottom:8px;">2. Respuesta en &lt;1 min</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.5);">El sistema cualifica, recoge datos y confirma</div>
+    </div>
+    <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:24px;text-align:center;">
+      <div style="font-size:32px;margin-bottom:12px;">📋</div>
+      <div style="font-weight:600;margin-bottom:8px;">3. Usted recibe el resumen</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.5);">Nombre, tratamiento, seguro, disponibilidad</div>
     </div>
   </div>
-  <div class="roi-box">
-    <div class="roi-icon">💡</div>
-    <div class="roi-text">
-      <h4>El cálculo es sencillo</h4>
-      <p>Un implante dental vale 1.500€. Un tratamiento de fertilidad, 4.000€. Una cirugía estética, 3.000€. Si el sistema recupera <strong>una sola consulta al mes</strong> que se perdía por respuesta tardía, la inversión está más que justificada.</p>
-    </div>
+
+  <div style="margin-top:24px;padding:20px 24px;background:rgba(14,165,160,0.06);border:1px solid rgba(14,165,160,0.15);border-radius:12px;text-align:center;">
+    <p style="font-size:15px;color:rgba(255,255,255,0.8);margin:0;">El precio depende del tamaño de su clínica y los canales que quiera cubrir.<br>
+    <strong style="color:var(--teal);">Se lo contamos por email en menos de 24h.</strong></p>
   </div>
 </section>
- 
+
 <section class="pricing-section" style="margin-bottom:72px;">
   <div class="section-label">Antes de empezar</div>
   <h2 class="section-title">¿Es esto lo que necesita su clínica?</h2>
@@ -275,11 +261,70 @@ header{padding:28px 0 24px;display:flex;align-items:center;justify-content:space
   </div>
 </section>
 
+<section class="pricing-section" style="margin-bottom:40px;">
+  <div class="section-label">Prueba gratuita 15 días</div>
+  <h2 class="section-title">¿Le interesa probarlo en su clínica?</h2>
+  <p class="section-sub">Sin permanencia. Sin tarjeta. Le activamos el sistema en 24h.</p>
+
+  <div style="max-width:500px;margin:0 auto;">
+    <form id="lead-form" style="display:flex;flex-direction:column;gap:14px;">
+      <input type="text" id="lead-nombre" placeholder="Nombre de su clínica *"
+        style="padding:14px 16px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);
+               background:rgba(255,255,255,0.05);color:white;font-size:15px;font-family:inherit;"
+        required>
+      <input type="email" id="lead-email" placeholder="Email de contacto *"
+        style="padding:14px 16px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);
+               background:rgba(255,255,255,0.05);color:white;font-size:15px;font-family:inherit;"
+        required>
+      <input type="text" id="lead-consultas" placeholder="¿Cuántas consultas reciben al mes aproximadamente?"
+        style="padding:14px 16px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);
+               background:rgba(255,255,255,0.05);color:white;font-size:15px;font-family:inherit;">
+      <button type="submit" id="lead-btn"
+        style="background:var(--teal);color:var(--navy);font-weight:700;font-size:16px;
+               padding:16px;border-radius:100px;border:none;cursor:pointer;
+               font-family:inherit;transition:transform 0.15s;">
+        Quiero probarlo gratis 15 días →
+      </button>
+      <p id="lead-msg" style="display:none;text-align:center;font-size:14px;color:var(--teal);margin:0;"></p>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('lead-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('lead-btn');
+      const msg = document.getElementById('lead-msg');
+      btn.textContent = 'Enviando...';
+      btn.disabled = true;
+      const nombre = document.getElementById('lead-nombre').value;
+      const email = document.getElementById('lead-email').value;
+      const consultas = document.getElementById('lead-consultas').value;
+      try {
+        const r = await fetch('https://webhook.canal-ia.com/lead-captura', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({nombre, email, consultas, origen: 'demo-clinicas'})
+        });
+        msg.style.display = 'block';
+        msg.textContent = '✅ Perfecto — le escribimos en menos de 24h con todos los detalles.';
+        btn.style.display = 'none';
+        document.getElementById('lead-form').reset();
+      } catch(err) {
+        msg.style.display = 'block';
+        msg.style.color = '#ff6b6b';
+        msg.textContent = 'Error al enviar. Escríbanos directamente a contacto@canal-ia.com';
+        btn.textContent = 'Quiero probarlo gratis 15 días →';
+        btn.disabled = false;
+      }
+    });
+  </script>
+</section>
+
 <section class="final-cta">
   <h2>¿Cuántas citas perdió su clínica este fin de semana?</h2>
-  <p>Hablamos 10 minutos y le contamos cómo funcionaría en su clínica. Sin compromiso.</p>
+  <p>Respóndanos con un <strong style="color:var(--teal);">SÍ</strong> y le montamos una demo personalizada<br>con el nombre de su clínica en menos de 24h.</p>
   <div class="cta-group">
-    <a class="btn-primary hero-cta" href="mailto:contacto@canal-ia.com?subject=Quiero saber cómo funcionaría en mi clínica">Empezar gratis ahora</a>
+    <a class="btn-primary hero-cta" href="mailto:contacto@canal-ia.com?subject=SÍ, quiero la demo personalizada para mi clínica">Sí, quiero verlo en mi clínica →</a>
     <a class="btn-ghost" href="https://www.instagram.com/canalia_es" target="_blank">Hablar con el equipo</a>
   </div>
 </section>
