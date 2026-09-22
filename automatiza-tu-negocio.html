@@ -349,9 +349,13 @@ Le contactamos el lunes antes de las 10h. ¿Nos puede dejar su nombre y localida
   }
 
   // Iniciar con reforma por defecto
-  document.addEventListener('DOMContentLoaded', () => {
+  window.addEventListener('load', () => {
     pymeScenario('reforma', document.querySelector('.pyme-tab'));
   });
+  // Fallback si load ya pasó
+  if(document.readyState === 'complete') {
+    pymeScenario('reforma', document.querySelector('.pyme-tab'));
+  }
   </script>
 
 
