@@ -198,93 +198,79 @@
   <script>
   const pymeScenarios = {
     reforma: {
-      titulo: "Empresa de Reformas · Asistente automático",
+      titulo: "Empresa de servicios · Asistente automático",
       msgs: [
         {type:'time', text:'Domingo · 21:32'},
-        {type:'bot', text:'Hola, soy el asistente de Reformas Hoy. Estamos fuera de horario pero puedo ayudarle. ¿En qué le puedo informar?'},
-        {type:'user', text:'Quería pedir presupuesto para reformar un baño'},
-        {type:'bot', text:'Con mucho gusto. Para prepararle un presupuesto ajustado necesito algunos datos:
-
-¿Cuántos m² tiene el baño aproximadamente?'},
+        {type:'bot', text:'Hola, soy el asistente de esta empresa. Estamos fuera de horario pero puedo ayudarle. ¿En qué puedo informarle?'},
+        {type:'user', text:'Quería pedir presupuesto para una reforma'},
+        {type:'bot', text:'Con mucho gusto. ¿Qué tipo de trabajo necesita y en qué zona?'},
+        {type:'qr', items:['Baño completo','Cocina','Toda la vivienda','Otro trabajo']},
+        {type:'user', text:'Baño completo'},
+        {type:'bot', text:'¿Cuántos m² tiene el baño aproximadamente?'},
         {type:'qr', items:['Menos de 5m²','Entre 5 y 8m²','Más de 8m²']},
         {type:'user', text:'Entre 5 y 8m²'},
-        {type:'bot', text:'Perfecto. ¿Qué tipo de reforma busca?'},
-        {type:'qr', items:['Reforma completa','Solo suelo y azulejos','Fontanería y sanitarios']},
-        {type:'user', text:'Reforma completa'},
-        {type:'bot', text:'Entendido. Para un baño de 5-8m² con reforma completa, el rango habitual está entre 4.500€ y 7.000€ según los materiales.
-
-Nuestro equipo le contactará mañana a primera hora con un presupuesto detallado. ¿A qué número prefiere que le llamen?'},
+        {type:'bot', text:'Su consulta ha quedado registrada. Nuestro equipo le contactará mañana a primera hora con un presupuesto detallado. ¿A qué número prefiere que le llamemos?'},
       ]
     },
     inmobiliaria: {
       titulo: "Inmobiliaria · Asistente automático",
       msgs: [
         {type:'time', text:'Sábado · 20:15'},
-        {type:'bot', text:'Buenas tardes, soy el asistente de Zona Madrid Inmobiliaria. ¿Busca comprar, vender o alquilar?'},
+        {type:'bot', text:'Buenas tardes, soy el asistente de esta inmobiliaria. ¿Busca comprar, vender o alquilar?'},
         {type:'qr', items:['Comprar','Vender','Alquilar']},
         {type:'user', text:'Comprar'},
-        {type:'bot', text:'Perfecto. ¿Qué tipo de propiedad busca?'},
+        {type:'bot', text:'¿Qué tipo de propiedad busca?'},
         {type:'qr', items:['Piso','Casa/Chalet','Local comercial','Oficina']},
         {type:'user', text:'Piso'},
         {type:'bot', text:'¿En qué zona y cuál es su presupuesto aproximado?'},
-        {type:'user', text:'Madrid centro, hasta 350.000€'},
-        {type:'bot', text:'Tenemos varias opciones que encajan con su búsqueda en Madrid centro hasta 350.000€.
-
-Un agente le enviará por email un listado personalizado antes de las 10h de mañana. ¿Cuál es su email de contacto?'},
+        {type:'user', text:'Zona céntrica, hasta 350.000€'},
+        {type:'bot', text:'Su búsqueda ha quedado registrada. Un agente le enviará un listado personalizado antes de las 10h de mañana. ¿Cuál es su email?'},
       ]
     },
     asesoria: {
-      titulo: "Asesoría Fiscal · Asistente automático",
+      titulo: "Asesoría profesional · Asistente automático",
       msgs: [
         {type:'time', text:'Viernes · 19:45'},
-        {type:'bot', text:'Hola, soy el asistente de MLT Asesores. Estamos cerrados pero puedo ayudarle a orientar su consulta. ¿Sobre qué necesita asesoramiento?'},
+        {type:'bot', text:'Hola, soy el asistente de este despacho. Estamos cerrados pero puedo orientar su consulta. ¿Sobre qué necesita asesoramiento?'},
         {type:'qr', items:['Fiscalidad empresa','Declaración IRPF','Laboral y nóminas','Constitución sociedad']},
         {type:'user', text:'Quiero constituir una sociedad'},
-        {type:'bot', text:'Entendido. ¿Tiene ya socios o va a ser usted el único titular?'},
+        {type:'bot', text:'¿Tiene socios o va a ser el único titular?'},
         {type:'qr', items:['Solo yo','Con socios']},
         {type:'user', text:'Solo yo'},
-        {type:'bot', text:'Para un autónomo que quiere constituir sociedad limitada unipersonal, el proceso habitual tarda entre 2 y 4 semanas.
-
-Un asesor le contactará el lunes para explicarle los pasos y costes. ¿Prefiere que le llamen o le envíen información por email?'},
+        {type:'bot', text:'Su consulta ha quedado registrada. Un asesor le contactará el lunes con los pasos y costes. ¿Prefiere llamada o email?'},
         {type:'qr', items:['Llamada el lunes','Email con información']},
       ]
     },
     mantenimiento: {
-      titulo: "Servicio de Mantenimiento · Asistente automático",
+      titulo: "Empresa de mantenimiento · Asistente automático",
       msgs: [
         {type:'time', text:'Domingo · 08:22'},
-        {type:'bot', text:'Buenos días, soy el asistente de Ascensores Magar. ¿Tiene una avería o necesita información sobre mantenimiento?'},
+        {type:'bot', text:'Buenos días, soy el asistente de esta empresa. ¿Tiene una avería o necesita información sobre mantenimiento?'},
         {type:'qr', items:['Avería urgente','Contrato mantenimiento','Revisión periódica','Otra consulta']},
         {type:'user', text:'Avería urgente'},
-        {type:'bot', text:'Entendido. ¿El ascensor está parado con personas dentro?'},
-        {type:'qr', items:['Sí, hay personas dentro','No, está parado vacío']},
-        {type:'user', text:'No, está parado vacío'},
-        {type:'bot', text:'Su avería ha quedado registrada como urgente.
-
-Nuestro técnico de guardia le llamará en los próximos 30 minutos. ¿Es correcto el número desde el que escribe?'},
+        {type:'bot', text:'¿Puede describirme brevemente el problema?'},
+        {type:'user', text:'El sistema no arranca'},
+        {type:'bot', text:'Su avería ha quedado registrada como urgente. Nuestro técnico le llamará en los próximos 30 minutos. ¿Es correcto el número desde el que escribe?'},
       ]
     },
     ventanas: {
-      titulo: "Fábrica de Ventanas · Asistente automático",
+      titulo: "Empresa de instalaciones · Asistente automático",
       msgs: [
         {type:'time', text:'Sábado · 11:08'},
-        {type:'bot', text:'Hola, soy el asistente de Alugal Ventanas. ¿Busca presupuesto para ventanas nuevas o tiene alguna consulta?'},
-        {type:'qr', items:['Presupuesto ventanas','Cambiar ventanas antiguas','Precios y materiales','Otra consulta']},
-        {type:'user', text:'Quiero cambiar las ventanas de mi piso'},
-        {type:'bot', text:'Perfecto. ¿Cuántas ventanas necesita cambiar aproximadamente?'},
-        {type:'qr', items:['1-3 ventanas','4-6 ventanas','Más de 6']},
-        {type:'user', text:'4-6 ventanas'},
-        {type:'bot', text:'¿Prefiere PVC o aluminio?'},
-        {type:'qr', items:['PVC (mejor aislamiento)','Aluminio (más estético)','No lo sé, asesoría']},
-        {type:'user', text:'No lo sé, asesoría'},
-        {type:'bot', text:'Sin problema, nuestro asesor le explicará las diferencias y le dará presupuesto sin compromiso.
-
-Le contactamos el lunes antes de las 10h. ¿Nos puede dejar su nombre y localidad?'},
+        {type:'bot', text:'Hola, soy el asistente de esta empresa. ¿Busca presupuesto o tiene alguna consulta?'},
+        {type:'qr', items:['Solicitar presupuesto','Consulta técnica','Seguimiento pedido','Otra consulta']},
+        {type:'user', text:'Solicitar presupuesto'},
+        {type:'bot', text:'¿Qué tipo de trabajo necesita?'},
+        {type:'qr', items:['Instalación nueva','Sustitución','Reparación','No estoy seguro']},
+        {type:'user', text:'Sustitución'},
+        {type:'bot', text:'¿Cuántas unidades necesita cambiar aproximadamente?'},
+        {type:'qr', items:['1-3 unidades','4-6 unidades','Más de 6']},
+        {type:'user', text:'4-6 unidades'},
+        {type:'bot', text:'Su consulta ha quedado registrada. Nuestro asesor le contactará el lunes antes de las 10h con un presupuesto sin compromiso.'},
       ]
     }
   };
-
-  let pymeTimer = null;
+    let pymeTimer = null;
 
   function pymeScenario(name, btn) {
     // Limpiar
