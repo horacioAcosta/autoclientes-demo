@@ -168,6 +168,9 @@
       <button class="pyme-tab" onclick="pymeScenario('asesoria',this)">📋 Asesorías</button>
       <button class="pyme-tab" onclick="pymeScenario('mantenimiento',this)">⚙️ Mantenimiento</button>
       <button class="pyme-tab" onclick="pymeScenario('ventanas',this)">🛠️ Instalaciones</button>
+      <button class="pyme-tab" onclick="pymeScenario('carpinteria',this)">🪵 Carpintería</button>
+      <button class="pyme-tab" onclick="pymeScenario('fontaneria',this)">🔩 Fontanería</button>
+      <button class="pyme-tab" onclick="pymeScenario('jardineria',this)">🌿 Jardinería</button>
     </div>
 
     <!-- Chat window -->
@@ -251,6 +254,50 @@
         {type:'bot', text:'¿Puede describirme brevemente el problema?'},
         {type:'user', text:'El sistema no arranca'},
         {type:'bot', text:'Su avería ha quedado registrada como urgente. Nuestro técnico le llamará en los próximos 30 minutos. ¿Es correcto el número desde el que escribe?'},
+      ]
+    },
+    carpinteria: {
+      titulo: "Carpintería · Asistente automático",
+      msgs: [
+        {type:'time', text:'Sábado · 10:15'},
+        {type:'bot', text:'Hola, soy el asistente de esta carpintería. ¿En qué puedo ayudarle?'},
+        {type:'qr', items:['Presupuesto puerta','Presupuesto mueble','Reparación','Otra consulta']},
+        {type:'user', text:'Presupuesto puerta'},
+        {type:'bot', text:'¿Es para interior o exterior?'},
+        {type:'qr', items:['Interior','Exterior','Puerta de entrada']},
+        {type:'user', text:'Puerta de entrada'},
+        {type:'bot', text:'¿Tiene medidas o necesita que pasemos a medirla?'},
+        {type:'qr', items:['Tengo las medidas','Necesito que vengan a medir']},
+        {type:'user', text:'Necesito que vengan a medir'},
+        {type:'bot', text:'Su consulta ha quedado registrada. Nuestro equipo le contactará el lunes para acordar una visita sin compromiso.'},
+      ]
+    },
+    fontaneria: {
+      titulo: "Fontanería · Asistente automático",
+      msgs: [
+        {type:'time', text:'Domingo · 09:45'},
+        {type:'bot', text:'Hola, soy el asistente de este servicio de fontanería. ¿Tiene una urgencia o necesita presupuesto?'},
+        {type:'qr', items:['Urgencia — fuga o avería','Presupuesto instalación','Revisión preventiva','Otra consulta']},
+        {type:'user', text:'Urgencia — fuga o avería'},
+        {type:'bot', text:'¿Puede describir brevemente dónde está la fuga?'},
+        {type:'user', text:'Debajo del fregadero'},
+        {type:'bot', text:'Su avería ha quedado registrada como urgente. Un fontanero le llamará en los próximos 30 minutos. ¿Es correcto el número desde el que escribe?'},
+      ]
+    },
+    jardineria: {
+      titulo: "Jardinería · Asistente automático",
+      msgs: [
+        {type:'time', text:'Sábado · 11:30'},
+        {type:'bot', text:'Hola, soy el asistente de este servicio de jardinería. ¿En qué puedo ayudarle?'},
+        {type:'qr', items:['Mantenimiento jardín','Diseño jardín nuevo','Poda y limpieza','Riego automático']},
+        {type:'user', text:'Mantenimiento jardín'},
+        {type:'bot', text:'¿Con qué frecuencia necesitaría el servicio?'},
+        {type:'qr', items:['Semanal','Quincenal','Mensual','Puntual']},
+        {type:'user', text:'Quincenal'},
+        {type:'bot', text:'¿Cuántos m² tiene el jardín aproximadamente?'},
+        {type:'qr', items:['Menos de 100m²','100-300m²','Más de 300m²']},
+        {type:'user', text:'100-300m²'},
+        {type:'bot', text:'Su consulta ha quedado registrada. Le enviaremos un presupuesto por email antes de las 10h de mañana.'},
       ]
     },
     ventanas: {
