@@ -135,14 +135,14 @@ header{padding:28px 0 24px;display:flex;align-items:center;justify-content:space
 <section class="demo-section" id="demo">
   <div class="demo-info">
     <h2>Habla directamente con la IA de la clínica</h2>
-    <p>Escribe directamente y habla con Sara, nuestra IA. Verás exactamente lo que verá tu paciente.</p>
+    <p>Escribe directamente y habla con Catalina, nuestra IA. Verás exactamente lo que verá tu paciente.</p>
  
     <div style="margin-bottom:16px">
       <div class="ai-badge"><span class="ai-pulse"></span>Agente IA activo — powered by canal.IA</div>
     </div>
  
     <div style="margin-bottom:16px;">
-      <span style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.4);color:var(--gold);font-size:13px;font-weight:500;padding:8px 16px;border-radius:100px;">✦ Sara — IA en tiempo real</span>
+      <span style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.4);color:var(--gold);font-size:13px;font-weight:500;padding:8px 16px;border-radius:100px;">✦ Catalina — IA en tiempo real</span>
     </div>
  
     <ul class="feature-list">
@@ -450,7 +450,7 @@ header{padding:28px 0 24px;display:flex;align-items:center;justify-content:space
     </details>
     <details style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px 24px;cursor:pointer;">
       <summary style="font-weight:600;font-size:15px;list-style:none;">¿Qué tipo de WhatsApp incluye?</summary>
-      <p style="margin-top:12px;color:rgba(255,255,255,0.6);font-size:14px;line-height:1.7;">WhatsApp Business con IA real — Sara responde, cualifica y recoge los datos del paciente automáticamente. Sin menús ni botones: conversación natural a cualquier hora.</p>
+      <p style="margin-top:12px;color:rgba(255,255,255,0.6);font-size:14px;line-height:1.7;">WhatsApp Business con IA real — Catalina responde, cualifica y recoge los datos del paciente automáticamente. Sin menús ni botones: conversación natural a cualquier hora.</p>
     </details>
     <details style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px 24px;cursor:pointer;">
       <summary style="font-weight:600;font-size:15px;list-style:none;">¿Cumple con el RGPD?</summary>
@@ -644,7 +644,7 @@ async function callClaude(userMsg){
       })
     });
     if(!resp.ok){
-      console.error('Sara error:',resp.status);
+      console.error('Catalina error:',resp.status);
       return 'Disculpa, ha habido un problema técnico. Por favor, escríbenos directamente.';
     }
     const data=await resp.json();
@@ -681,8 +681,8 @@ async function sendUserMsg(){
   isTyping=false;
 }
  
-// Sara activa por defecto — no reproducir escenario
-addMsg('bot','Hola, soy Sara de AutoClientes.ai. Escribe tu pregunta y te respondo ahora mismo.');
+// Catalina activa por defecto — no reproducir escenario
+addMsg('bot','Hola, soy Catalina de AutoClientes.ai. Escribe tu pregunta y te respondo ahora mismo.');
 </script>
 </body>
 </html>
