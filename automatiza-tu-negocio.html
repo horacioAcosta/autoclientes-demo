@@ -457,12 +457,31 @@
       saraFirstMsg = false;
       const data = await resp.json();
       typing.remove();
-      saraMsgBot(data.respuesta || 'Disculpa, ha habido un problema. Escríbenos directamente.');
+      saraMsgBotWithCta(data.respuesta || 'Disculpa, ha habido un problema. Escríbenos directamente.');
     } catch(e) {
       typing.remove();
-      saraMsgBot('Disculpa, ha habido un problema técnico. Escríbenos directamente a contacto@canal-ia.com');
+      saraMsgBotWithCta('Disculpa, ha habido un problema técnico. Escríbenos directamente a contacto@canal-ia.com');
     }
     saraSending = false;
+  }
+
+  let _pymeCta = false;
+  let _pymeMsgCount = 0;
+
+  const _origSaraMsgBot = saraMsgBot;
+  function saraMsgBotWithCta(text) {
+    _origSaraMsgBot(text);
+    _pymeMsgCount++;
+    if(!_pymeCta && _pymeMsgCount >= 2) {
+      _pymeCta = true;
+      setTimeout(() => {
+        const cta = document.createElement('div');
+        cta.style.cssText = 'margin:8px 0;padding:14px 16px;background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(6,182,212,.1));border:1px solid rgba(99,102,241,.3);border-radius:12px;text-align:center;';
+        cta.innerHTML = '<p style="font-size:13px;color:rgba(255,255,255,0.8);margin-bottom:10px;">¿Quieres que Catalina atienda así a tus clientes?</p><a href="mailto:contacto@canal-ia.com?subject=Quiero probar AutoClientes.ai en mi negocio" style="display:inline-block;background:linear-gradient(90deg,#6366f1,#06b6d4);color:white;padding:9px 20px;border-radius:100px;text-decoration:none;font-size:13px;font-weight:600;">Probar gratis 15 días →</a>';
+        document.getElementById('sara-chat-pymes').appendChild(cta);
+        document.getElementById('sara-chat-pymes').scrollTop = 9999;
+      }, 1000);
+    }
   }
 
   // Mensaje de bienvenida
@@ -470,6 +489,24 @@
     setTimeout(() => saraMsgBot('Hola, soy Catalina de AutoClientes.ai. ¿En qué puedo ayudarle? Puede preguntarme sobre nuestro servicio o cómo funcionaría en su negocio.'), 800);
   });
   </script>
+
+<!-- QUIÉN ESTÁ DETRÁS -->
+  <div style="max-width:680px;margin:0 auto 48px;padding:0 20px;">
+    <h2 style="text-align:center;font-size:1.2rem;font-weight:700;margin-bottom:8px;">Quién está detrás</h2>
+    <p style="text-align:center;color:#a0a0c0;font-size:.9rem;margin-bottom:24px;">Un producto de canal.IA — automatización con IA para empresas españolas</p>
+    <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:24px;display:flex;align-items:center;gap:20px;">
+      <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#06b6d4);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:white;flex-shrink:0;">H</div>
+      <div>
+        <div style="font-size:15px;font-weight:600;margin-bottom:4px;">Horacio Acosta</div>
+        <div style="font-size:13px;color:#7878a0;margin-bottom:10px;">Fundador · canal.IA · España</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <a href="mailto:contacto@canal-ia.com" style="font-size:12px;color:#7878a0;text-decoration:none;">📧 contacto@canal-ia.com</a>
+          <a href="https://www.linkedin.com/in/horacio-acosta-a81756424" target="_blank" style="font-size:12px;color:#7878a0;text-decoration:none;">💼 LinkedIn</a>
+          <a href="https://www.youtube.com/@canal.ia-infra" target="_blank" style="font-size:12px;color:#7878a0;text-decoration:none;">▶️ YouTube canal.IA</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <!-- CTA -->
   <div class="cta">
@@ -505,8 +542,8 @@
 
     <!-- Dato social -->
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:32px;display:flex;align-items:center;gap:16px;">
-      <div style="font-size:32px;font-weight:700;color:var(--indigo);flex-shrink:0;">47%</div>
-      <div style="font-size:13px;color:var(--muted);line-height:1.6;">de las consultas que reciben los negocios llegan fuera del horario comercial. Sin respuesta automática, más de la mitad se pierden.</div>
+      <div style="font-size:32px;font-weight:700;color:var(--indigo);flex-shrink:0;">+50%</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.6;">de las consultas llegan fuera del horario comercial — por la noche, fines de semana o festivos. Sin respuesta automática, se pierden.</div>
     </div>
 
     <div class="cta-box">
@@ -528,7 +565,7 @@
       </a>
       <p style="font-size:.75rem;color:#7878a0;margin-top:8px;">💬 WhatsApp Business con IA real — Catalina responde automáticamente a cualquier hora.</p>
       <p style="margin-top:16px;font-size:.75rem;color:#4a4a6a;">
-        <a href="/privacidad-pymes.html" style="color:#7878a0;text-decoration:none;">Política de privacidad</a>
+        <a href="/privacidad-pymes.html" style="color:#7878a0;text-decoration:none;">Política de privacidad</a> · <a href="/contrato-servicio.html" style="color:#7878a0;text-decoration:none;">Contrato de servicio</a>
       </p>
     </div>
   </div>
