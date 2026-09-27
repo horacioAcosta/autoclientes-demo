@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contacto — [Nombre negocio]</title>
+<title>Contacto — AutoClientes.ai</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -55,7 +55,7 @@
 <div class="wrap">
   <div class="logo">
     <h1 id="nombre-negocio">Su negocio</h1>
-    <p>Envíenos su consulta — le respondemos en menos de 1 hora</p>
+    <p>Envíenos su consulta — le respondemos en menos de 24 horas</p>
   </div>
 
   <div class="card">
@@ -94,7 +94,7 @@
 
     <div class="success" id="exito">
       <h3>✅ Consulta recibida</h3>
-      <p>Gracias por contactar con nosotros.<br>Le respondemos en menos de 1 hora.</p>
+      <p>Gracias por contactar con nosotros.<br>Le respondemos en menos de 24 horas.</p>
     </div>
   </div>
 
@@ -113,7 +113,7 @@ const slugNegocio = params.get('slug') || negocioParam?.toLowerCase().replace(/\
 if (negocioParam) {
   document.getElementById('nombre-negocio').textContent = negocioParam;
   document.title = 'Contacto — ' + negocioParam;
-  document.querySelector('.logo p').textContent = 'Envíenos su consulta — le respondemos en menos de 1 hora';
+  document.querySelector('.logo p').textContent = 'Envíenos su consulta — le respondemos en menos de 24 horas';
 }
 
 async function enviarFormulario() {
