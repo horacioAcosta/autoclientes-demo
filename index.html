@@ -537,6 +537,7 @@ const scenarios = {
  
 let currentMode='guided';
 let chatHistory=[];
+const sessionId = 'demo-clinica-' + Math.random().toString(36).substr(2,9);
 let isTyping=false;
 let playTimer=null;
  
@@ -643,7 +644,7 @@ async function callClaude(userMsg){
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
         mensaje: userMsg,
-        session_id: 'demo-clinica-' + Math.random().toString(36).substr(2,9)
+        session_id: sessionId
       })
     });
     if(!resp.ok){
