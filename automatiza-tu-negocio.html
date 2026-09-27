@@ -432,6 +432,7 @@
     document.getElementById('sara-chat-pymes').scrollTop = 9999;
   };
   const saraSessionId = 'demo-pymes-' + Math.random().toString(36).substr(2,9);
+  let saraFirstMsg = true;
   let saraSending = false;
 
   async function saraSendPymes() {
@@ -451,7 +452,8 @@
       const resp = await fetch('https://webhook.canal-ia.com/sara/chat', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({mensaje: text, session_id: saraSessionId})
+        body: JSON.stringify({mensaje: saraFirstMsg ? '[CONTEXTO: Esta conversación es con el dueño o responsable de una PYME o pequeño negocio de servicios en España — NO una clínica. Puede ser inmobiliaria, asesoría, empresa de reformas, mantenimiento, carpintería, etc.] ' + text : text, session_id: saraSessionId})
+    saraFirstMsg = false;
       });
       const data = await resp.json();
       typing.remove();
