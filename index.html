@@ -638,18 +638,20 @@ function playScenario(name){
 async function callClaude(userMsg){
   chatHistory.push({role:'user',content:userMsg});
   try{
-    const resp=await fetch('https://autoclientes-proxy.canal-ia-horatio.workers.dev',{
+    const resp=await fetch('https://webhook.canal-ia.com/sara/chat',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({messages:chatHistory})
+      body:JSON.stringify({
+        mensaje: userMsg,
+        session_id: 'demo-clinica-' + Math.random().toString(36).substr(2,9)
+      })
     });
     if(!resp.ok){
-      const err=await resp.text();
-      console.error('Worker error:',resp.status,err);
-      return 'Disculpa, ha habido un problema tecnico. Por favor, escríbenos directamente.';
+      console.error('Sara error:',resp.status);
+      return 'Disculpa, ha habido un problema técnico. Por favor, escríbenos directamente.';
     }
     const data=await resp.json();
-    const reply=data.content?.[0]?.text||'Disculpa, no he entendido bien. Puedes reformular tu pregunta?';
+    const reply=data.respuesta||'Disculpa, no he entendido bien. ¿Puedes reformular tu pregunta?';
     chatHistory.push({role:'assistant',content:reply});
     return reply;
   } catch(e){
