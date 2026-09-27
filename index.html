@@ -670,6 +670,18 @@ async function sendUserMsg(){
     const reply=await callClaude(text);
     removeTyping();
     addMsg('bot',reply);
+    // CTA tras segunda interacción
+    if(!window._ctaShown && window._msgCount >= 2){
+      window._ctaShown = true;
+      setTimeout(()=>{
+        const cta = document.createElement('div');
+        cta.style.cssText = 'margin:8px 0;padding:14px 16px;background:linear-gradient(135deg,rgba(14,165,160,0.15),rgba(14,165,160,0.05));border:1px solid rgba(14,165,160,0.3);border-radius:12px;text-align:center;';
+        cta.innerHTML = '<p style="font-size:13px;color:rgba(255,255,255,0.8);margin-bottom:10px;">¿Quieres que Catalina responda así en tu clínica?</p><a href="mailto:contacto@canal-ia.com?subject=Quiero probar AutoClientes.ai en mi clínica" style="display:inline-block;background:#0EA5A0;color:white;padding:9px 20px;border-radius:100px;text-decoration:none;font-size:13px;font-weight:600;">Probar gratis 15 días →</a>';
+        document.getElementById('chatMessages').appendChild(cta);
+        document.getElementById('chatMessages').scrollTop = 9999;
+      }, 1000);
+    }
+    window._msgCount = (window._msgCount||0) + 1;
     if(reply.toLowerCase().includes('cita')||reply.toLowerCase().includes('reservar')||reply.toLowerCase().includes('disponibilidad')){
       addQR(['Confirmar cita','Otra fecha','Más información']);
     }
