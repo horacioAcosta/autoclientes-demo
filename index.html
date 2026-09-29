@@ -704,6 +704,9 @@ async function sendUserMsg(){
     removeTyping();
     addMsg('bot',reply);
     // CTA tras segunda interacción
+    window._msgCount = (window._msgCount||0) + 1;
+
+    // CTA tras segunda interacción
     if(!window._ctaShown && window._msgCount >= 2){
       window._ctaShown = true;
       setTimeout(()=>{
@@ -714,7 +717,20 @@ async function sendUserMsg(){
         document.getElementById('chatMessages').scrollTop = 9999;
       }, 1000);
     }
-    window._msgCount = (window._msgCount||0) + 1;
+
+    // Pop-up lead cualificado cuando Catalina recoge nombre+ciudad+horario
+    const leadKeywords = ['le paso los datos','quedo apuntado','le contactar','le llamar','ha quedado registrad','anotado','perfecto, le','gracias por los datos','en breve le'];
+    const isLeadCapturado = leadKeywords.some(k => reply.toLowerCase().includes(k));
+    if(!window._leadShown && isLeadCapturado){
+      window._leadShown = true;
+      setTimeout(()=>{
+        const popup = document.createElement('div');
+        popup.style.cssText = 'margin:8px 0;padding:16px 20px;background:linear-gradient(135deg,rgba(34,197,94,0.15),rgba(14,165,160,0.1));border:1px solid rgba(34,197,94,0.4);border-radius:12px;text-align:center;';
+        popup.innerHTML = '<div style="font-size:20px;margin-bottom:8px;">✅</div><p style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.95);margin-bottom:6px;">Lead cualificado capturado</p><p style="font-size:12px;color:rgba(255,255,255,0.6);margin-bottom:12px;">Así recibirías este paciente en tu panel — con nombre, consulta y disponibilidad listos para agendar.</p><a href="/panel-cliente.html?slug=demo&negocio=Tu+Clínica" target="_blank" style="display:inline-block;background:#22C55E;color:white;padding:8px 18px;border-radius:100px;text-decoration:none;font-size:12px;font-weight:600;">Ver cómo llega al panel →</a>';
+        document.getElementById('chatMessages').appendChild(popup);
+        document.getElementById('chatMessages').scrollTop = 9999;
+      }, 1500);
+    }
     if(reply.toLowerCase().includes('cita')||reply.toLowerCase().includes('reservar')||reply.toLowerCase().includes('disponibilidad')){
       addQR(['Confirmar cita','Otra fecha','Más información']);
     }
