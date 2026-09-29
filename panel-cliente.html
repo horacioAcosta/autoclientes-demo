@@ -184,13 +184,7 @@ const demoLeadsPyme = [
 document.getElementById('s-name').textContent = NEGOCIO;
 document.getElementById('s-avatar').textContent = NEGOCIO[0].toUpperCase();
 
-const leads = [
-  {id:1,nombre:'María García',email:'mgarcia@gmail.com',tel:'612 345 678',canal:'web',estado:'new',fecha:new Date(Date.now()-1200000),consulta:'Me interesa un tratamiento de implantes dentales. ¿Podéis informarme sobre precios?',tx:'Implantes dentales',seg:'No tiene',disp:'Lunes o martes tarde'},
-  {id:2,nombre:'Carlos Romero',email:'cromero@empresa.es',tel:'687 234 567',canal:'web',estado:'qualified',fecha:new Date(Date.now()-7200000),consulta:'Busco información sobre ortodoncia invisible para adultos.',tx:'Ortodoncia Invisalign',seg:'Sanitas',disp:'Cualquier mañana'},
-  {id:3,nombre:'Ana Martínez',email:'ana.martinez@hotmail.com',tel:'654 321 098',canal:'email',estado:'contacted',fecha:new Date(Date.now()-18000000),consulta:'¿Cuánto cuesta una limpieza dental? ¿Aceptáis Adeslas?',tx:'Limpieza dental',seg:'Adeslas',disp:'Viernes tarde'},
-  {id:4,nombre:'Javier López',email:'jlopez@gmail.com',tel:'699 876 543',canal:'web',estado:'new',fecha:new Date(Date.now()-28800000),consulta:'Tengo dolor de muelas desde hace dos días. ¿Podéis atenderme con urgencia?',tx:'Urgencia dental',seg:'No tiene',disp:'Lo antes posible'},
-  {id:5,nombre:'Laura Sánchez',email:'lsanchez@outlook.es',tel:'611 222 333',canal:'web',estado:'qualified',fecha:new Date(Date.now()-86400000),consulta:'Me gustaría hacer una valoración para diseño de sonrisa.',tx:'Diseño de sonrisa',seg:'No tiene',disp:'Tarde entre semana'}
-];
+const leads = isPyme ? [...demoLeadsPyme] : [...demoLeadsCli];
 
 let filtro = 'all';
 
