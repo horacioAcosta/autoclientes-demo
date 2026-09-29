@@ -484,7 +484,20 @@
       saraFirstMsg = false;
       const data = await resp.json();
       typing.remove();
-      saraMsgBotWithCta(data.respuesta || 'Disculpa, ha habido un problema. Escríbenos directamente.');
+      const pymeReply = data.respuesta || 'Disculpa, ha habido un problema. Escríbenos directamente.';
+      saraMsgBotWithCta(pymeReply);
+      // Pop-up lead cualificado
+      const pymeIsLead = pymeLeadKeywords.some(k => pymeReply.toLowerCase().includes(k));
+      if(!_pymeLeadShown && pymeIsLead){
+        _pymeLeadShown = true;
+        setTimeout(()=>{
+          const popup = document.createElement('div');
+          popup.style.cssText = 'margin:8px 0;padding:16px 20px;background:linear-gradient(135deg,rgba(34,197,94,0.15),rgba(99,102,241,0.1));border:1px solid rgba(34,197,94,0.4);border-radius:12px;text-align:center;';
+          popup.innerHTML = '<div style="font-size:20px;margin-bottom:8px;">✅</div><p style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.95);margin-bottom:6px;">Lead cualificado capturado</p><p style="font-size:12px;color:rgba(255,255,255,0.6);margin-bottom:12px;">Así recibirías este cliente en tu panel — con nombre, consulta y disponibilidad listos para llamar.</p><a href="/panel-cliente.html?slug=demo&negocio=Mi+Negocio" target="_blank" style="display:inline-block;background:#22C55E;color:white;padding:8px 18px;border-radius:100px;text-decoration:none;font-size:12px;font-weight:600;">Ver cómo llega al panel →</a>';
+          document.getElementById('sara-chat-pymes').appendChild(popup);
+          document.getElementById('sara-chat-pymes').scrollTop = 9999;
+        }, 1500);
+      }
     } catch(e) {
       typing.remove();
       saraMsgBotWithCta('Disculpa, ha habido un problema técnico. Escríbenos directamente a contacto@canal-ia.com');
@@ -494,6 +507,8 @@
 
   let _pymeCta = false;
   let _pymeMsgCount = 0;
+  let _pymeLeadShown = false;
+  const pymeLeadKeywords = ['le paso los datos','quedo apuntado','le contactar','le llamar','ha quedado registrad','anotado','perfecto, le','gracias por los datos','en breve le'];
 
   const _origSaraMsgBot = saraMsgBot;
   function saraMsgBotWithCta(text) {
@@ -516,6 +531,27 @@
     setTimeout(() => saraMsgBot('Hola, soy Catalina de AutoClientes.ai. ¿En qué puedo ayudarle? Puede preguntarme sobre nuestro servicio o cómo funcionaría en su negocio.'), 800);
   });
   </script>
+
+<!-- PANEL DE LEADS -->
+  <div style="max-width:680px;margin:0 auto 48px;padding:0 20px;text-align:center;">
+    <h2 style="font-size:1.2rem;font-weight:700;margin-bottom:8px;">El panel que verá su equipo cada mañana</h2>
+    <p style="color:#a0a0c0;font-size:.9rem;margin-bottom:24px;">Leads ordenados, cualificados y listos para llamar — sin revisar conversaciones.</p>
+    <a href="/panel-cliente.html?slug=demo&negocio=Mi+Negocio" target="_blank"
+       style="display:block;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);text-decoration:none;transition:transform .2s;box-shadow:0 8px 32px rgba(0,0,0,0.3);"
+       onmouseover="this.style.transform='translateY(-4px)'"
+       onmouseout="this.style.transform='translateY(0)'">
+      <div style="background:rgba(255,255,255,0.03);padding:12px 20px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,0.06);">
+        <div style="width:10px;height:10px;border-radius:50%;background:#22c55e;"></div>
+        <span style="font-size:13px;color:rgba(255,255,255,0.5);">Panel de leads — en tiempo real</span>
+        <span style="margin-left:auto;font-size:12px;color:#6366f1;">Ver demo del panel →</span>
+      </div>
+      <div style="padding:48px 20px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;background:rgba(255,255,255,0.02);">
+        <span style="font-size:40px;">📊</span>
+        <span style="font-size:14px;color:rgba(255,255,255,0.5);">Panel interactivo — pulsa para abrirlo</span>
+      </div>
+    </a>
+    <p style="margin-top:12px;font-size:12px;color:#4a4a6a;">Datos de ejemplo · El panel real muestra los leads de su negocio en tiempo real</p>
+  </div>
 
 <!-- QUIÉN ESTÁ DETRÁS -->
   <div style="max-width:680px;margin:0 auto 48px;padding:0 20px;">
@@ -596,7 +632,7 @@
       <p>Le contamos exactamente cómo funcionaría en su negocio — sin llamadas, todo por email.</p>
       <p class="sub">Sin compromiso. Si no encaja, también está bien.</p>
       <a href="mailto:contacto@canal-ia.com?subject=Quiero ver cómo funcionaría en mi negocio" class="cta-btn">
-        📧 Escríbanos — le respondemos en 24h
+        🚀 Quiero mis 15 días gratis — sin compromiso
       </a>
       <a href="https://wa.me/34711584462?text=Hola%2C%20me%20interesa%20saber%20m%C3%A1s%20sobre%20la%20automatizaci%C3%B3n%20para%20mi%20negocio"
          target="_blank"
