@@ -224,8 +224,8 @@ function openL(id) {
     <div class="mf"><div class="mf-label">Email</div><div class="mf-value">${l.email}</div></div>
     <div class="mf"><div class="mf-label">Teléfono</div><div class="mf-value">${l.tel}</div></div>
     <div class="mf"><div class="mf-label">Consulta recibida</div><div class="mf-value">${l.consulta}</div></div>
-    <div class="mf"><div class="mf-label">Tratamiento de interés</div><div class="mf-value">${l.tx}</div></div>
-    <div class="mf"><div class="mf-label">Seguro médico</div><div class="mf-value">${l.seg}</div></div>
+    <div class="mf"><div class="mf-label">${isPyme ? 'Servicio de interés' : 'Tratamiento de interés'}</div><div class="mf-value">${l.tx}</div></div>
+    <div class="mf"><div class="mf-label">${isPyme ? 'Información adicional' : 'Seguro médico'}</div><div class="mf-value">${l.seg}</div></div>
     <div class="mf"><div class="mf-label">Disponibilidad</div><div class="mf-value">${l.disp}</div></div>
     <div style="display:flex;gap:8px;margin-top:4px"><span class="chip ${SM[l.estado]}">${SL[l.estado]}</span><span style="font-size:12px;color:var(--text-3);align-self:center">${ftime(l.fecha)}</span></div>`;
   document.getElementById('modal').classList.add('open');
