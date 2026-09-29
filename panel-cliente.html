@@ -164,6 +164,23 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg)}
 const P = new URLSearchParams(location.search);
 const SLUG = P.get('slug') || 'demo';
 const NEGOCIO = P.get('negocio') || 'Clínica Demo';
+const isPyme = SLUG.includes('pyme');
+
+const demoLeadsCli = [
+  {id:1, nombre:'María García', email:'mgarcia@gmail.com', tel:'612 345 678', canal:'web', estado:'new', fecha:new Date(Date.now()-1200000), consulta:'Me interesa un tratamiento de implantes dentales. ¿Podéis informarme sobre precios?', tx:'Implantes dentales', seg:'No tiene', disp:'Lunes o martes tarde'},
+  {id:2, nombre:'Carlos Romero', email:'cromero@empresa.es', tel:'687 234 567', canal:'web', estado:'qualified', fecha:new Date(Date.now()-7200000), consulta:'Busco información sobre ortodoncia invisible para adultos.', tx:'Ortodoncia Invisalign', seg:'Sanitas', disp:'Cualquier mañana'},
+  {id:3, nombre:'Ana Martínez', email:'ana.martinez@hotmail.com', tel:'654 321 098', canal:'email', estado:'contacted', fecha:new Date(Date.now()-18000000), consulta:'¿Cuánto cuesta una limpieza dental? ¿Aceptáis Adeslas?', tx:'Limpieza dental', seg:'Adeslas', disp:'Viernes tarde'},
+  {id:4, nombre:'Javier López', email:'jlopez@gmail.com', tel:'699 876 543', canal:'web', estado:'new', fecha:new Date(Date.now()-28800000), consulta:'Dolor de muelas desde hace dos días. ¿Podéis atenderme con urgencia?', tx:'Urgencia dental', seg:'No tiene', disp:'Lo antes posible'},
+  {id:5, nombre:'Laura Sánchez', email:'lsanchez@outlook.es', tel:'611 222 333', canal:'web', estado:'qualified', fecha:new Date(Date.now()-86400000), consulta:'Me gustaría hacer una valoración para diseño de sonrisa.', tx:'Diseño de sonrisa', seg:'No tiene', disp:'Tarde entre semana'}
+];
+
+const demoLeadsPyme = [
+  {id:1, nombre:'Roberto Fernández', email:'roberto@construcciones.es', tel:'622 111 333', canal:'web', estado:'new', fecha:new Date(Date.now()-900000), consulta:'Quiero presupuesto para reforma integral de cocina y baño en piso de 90m².', tx:'Reforma cocina y baño', seg:'N/A', disp:'Cualquier mañana esta semana'},
+  {id:2, nombre:'Isabel Torres', email:'itort@gmail.com', tel:'655 444 222', canal:'web', estado:'qualified', fecha:new Date(Date.now()-5400000), consulta:'Busco piso de 3 habitaciones en zona norte, presupuesto hasta 280.000€.', tx:'Compra piso 3 hab', seg:'N/A', disp:'Fines de semana'},
+  {id:3, nombre:'Pedro Molina', email:'pedro.molina@empresa.com', tel:'677 888 111', canal:'email', estado:'contacted', fecha:new Date(Date.now()-14400000), consulta:'Necesito asesoría para constituir una SL. ¿Cuánto cuesta y cuánto tarda?', tx:'Constitución SL', seg:'N/A', disp:'Jueves o viernes tarde'},
+  {id:4, nombre:'Carmen Ruiz', email:'carmen.r@hotmail.com', tel:'633 777 555', canal:'web', estado:'new', fecha:new Date(Date.now()-32400000), consulta:'Avería en sistema de climatización de la oficina. Urgente.', tx:'Avería climatización', seg:'N/A', disp:'Hoy o mañana'},
+  {id:5, nombre:'Antonio Jiménez', email:'ajimenez@reformas.es', tel:'644 222 888', canal:'web', estado:'qualified', fecha:new Date(Date.now()-90000000), consulta:'Quiero cambiar todas las ventanas del piso, son 6 ventanas y una balconera.', tx:'Cambio ventanas y balconera', seg:'N/A', disp:'Entre semana por la mañana'}
+];
 document.getElementById('s-name').textContent = NEGOCIO;
 document.getElementById('s-avatar').textContent = NEGOCIO[0].toUpperCase();
 
