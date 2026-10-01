@@ -135,7 +135,7 @@ header{padding:28px 0 24px;display:flex;align-items:center;justify-content:space
 <section class="demo-section" id="demo">
   <div class="demo-info">
     <h2>Habla directamente con la IA de la clínica</h2>
-    <p>Escribe directamente y habla con Catalina, nuestra IA. Verás exactamente lo que verá tu paciente.</p>
+    <p>Escriba directamente y hable con Catalina, el asistente virtual de IA. Verá exactamente cómo responderá a sus pacientes.</p>
  
     <div style="margin-bottom:16px">
       <div class="ai-badge"><span class="ai-pulse"></span>Agente IA activo — powered by canal.IA</div>
@@ -754,7 +754,7 @@ async function sendUserMsg(){
       setTimeout(()=>{
         const cta = document.createElement('div');
         cta.style.cssText = 'margin:8px 0;padding:14px 16px;background:linear-gradient(135deg,rgba(14,165,160,0.15),rgba(14,165,160,0.05));border:1px solid rgba(14,165,160,0.3);border-radius:12px;text-align:center;';
-        cta.innerHTML = '<p style="font-size:13px;color:rgba(255,255,255,0.8);margin-bottom:10px;">¿Quieres que Catalina responda así en tu clínica?</p><a href="mailto:contacto@canal-ia.com?subject=Quiero probar AutoClientes.ai en mi clínica" style="display:inline-block;background:#0EA5A0;color:white;padding:9px 20px;border-radius:100px;text-decoration:none;font-size:13px;font-weight:600;">Quiero mis 15 días gratis →</a>';
+        cta.innerHTML = '<p style="font-size:13px;color:rgba(255,255,255,0.8);margin-bottom:10px;">¿Desea que Catalina responda así en su clínica?</p><a href="mailto:contacto@canal-ia.com?subject=Quiero probar AutoClientes.ai en mi clínica" style="display:inline-block;background:#0EA5A0;color:white;padding:9px 20px;border-radius:100px;text-decoration:none;font-size:13px;font-weight:600;">Quiero mis 15 días gratis →</a>';
         document.getElementById('chatMessages').appendChild(cta);
         document.getElementById('chatMessages').scrollTop = 9999;
       }, 1000);
@@ -779,7 +779,7 @@ async function sendUserMsg(){
   } else {
     await new Promise(r=>setTimeout(r,1500));
     removeTyping();
-    addMsg('bot','Gracias por tu mensaje. Un miembro de nuestro equipo te contactará en breve para darte información personalizada.');
+    addMsg('bot','Gracias por su mensaje. Un miembro de nuestro equipo le contactará en breve para ofrecerle información personalizada.');
   }
   isTyping=false;
 }
