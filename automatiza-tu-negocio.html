@@ -476,7 +476,7 @@
     document.getElementById('sara-chat-pymes').appendChild(typing);
     document.getElementById('sara-chat-pymes').scrollTop = 9999;
     try {
-      const resp = await fetch('https://webhook.canal-ia.com/sara/chat', {
+      const resp = await fetch('https://webhook.canal-ia.com/catalina/chat', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({mensaje: saraFirstMsg ? '[CONTEXTO: Esta conversación es con el dueño o responsable de una ' + saraSector + ' en España. Adapta tu respuesta a ese sector específico. NO menciones clínicas salvo que sea relevante.] ' + text : text, session_id: saraSessionId})

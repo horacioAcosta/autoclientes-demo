@@ -710,7 +710,7 @@ function playScenario(name){
 async function callClaude(userMsg){
   chatHistory.push({role:'user',content:userMsg});
   try{
-    const resp=await fetch('https://webhook.canal-ia.com/sara/chat',{
+    const resp=await fetch('https://webhook.canal-ia.com/catalina/chat',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
