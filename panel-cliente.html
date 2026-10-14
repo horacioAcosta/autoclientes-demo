@@ -174,13 +174,54 @@ const demoLeadsCli = [
   {id:5, nombre:'Laura Sánchez', email:'lsanchez@outlook.es', tel:'611 222 333', canal:'web', estado:'qualified', fecha:new Date(Date.now()-86400000), consulta:'Me gustaría hacer una valoración para diseño de sonrisa.', tx:'Diseño de sonrisa', seg:'No tiene', disp:'Tarde entre semana'}
 ];
 
-const demoLeadsPyme = [
-  {id:1, nombre:'Roberto Fernández', email:'roberto@construcciones.es', tel:'622 111 333', canal:'web', estado:'new', fecha:new Date(Date.now()-900000), consulta:'Quiero presupuesto para reforma integral de cocina y baño en piso de 90m².', tx:'Reforma cocina y baño', seg:'N/A', disp:'Cualquier mañana esta semana'},
-  {id:2, nombre:'Isabel Torres', email:'itort@gmail.com', tel:'655 444 222', canal:'web', estado:'qualified', fecha:new Date(Date.now()-5400000), consulta:'Busco piso de 3 habitaciones en zona norte, presupuesto hasta 280.000€.', tx:'Compra piso 3 hab', seg:'N/A', disp:'Fines de semana'},
-  {id:3, nombre:'Pedro Molina', email:'pedro.molina@empresa.com', tel:'677 888 111', canal:'email', estado:'contacted', fecha:new Date(Date.now()-14400000), consulta:'Necesito asesoría para constituir una SL. ¿Cuánto cuesta y cuánto tarda?', tx:'Constitución SL', seg:'N/A', disp:'Jueves o viernes tarde'},
-  {id:4, nombre:'Carmen Ruiz', email:'carmen.r@hotmail.com', tel:'633 777 555', canal:'web', estado:'new', fecha:new Date(Date.now()-32400000), consulta:'Avería en sistema de climatización de la oficina. Urgente.', tx:'Avería climatización', seg:'N/A', disp:'Hoy o mañana'},
-  {id:5, nombre:'Antonio Jiménez', email:'ajimenez@reformas.es', tel:'644 222 888', canal:'web', estado:'qualified', fecha:new Date(Date.now()-90000000), consulta:'Quiero cambiar todas las ventanas del piso, son 6 ventanas y una balconera.', tx:'Cambio ventanas y balconera', seg:'N/A', disp:'Entre semana por la mañana'}
-];
+const LEADS_PYME_POR_SECTOR = {
+  optica: [
+    {id:1, nombre:'Patricia Molina', email:'p.molina@gmail.com', tel:'612 345 678', canal:'web', estado:'new', fecha:new Date(Date.now()-600000), consulta:'Necesito unas gafas graduadas, tengo miopía y astigmatismo. ¿Qué marcas tenéis?', tx:'Gafas graduadas', seg:'N/A', disp:'Cualquier tarde esta semana'},
+    {id:2, nombre:'Luis Herrera', email:'lherrera@empresa.es', tel:'655 432 111', canal:'web', estado:'qualified', fecha:new Date(Date.now()-5400000), consulta:'Me gustaría probar lentillas por primera vez. ¿Hacéis revisión previa?', tx:'Adaptación lentillas', seg:'N/A', disp:'Mañana por la tarde'},
+    {id:3, nombre:'Marta Vega', email:'mvega@hotmail.com', tel:'677 123 456', canal:'email', estado:'contacted', fecha:new Date(Date.now()-14400000), consulta:'¿Tenéis gafas de sol con graduación? Busco algo para este verano.', tx:'Gafas sol graduadas', seg:'N/A', disp:'Sábado por la mañana'},
+    {id:4, nombre:'Sergio Castro', email:'scastro@gmail.com', tel:'633 987 654', canal:'web', estado:'new', fecha:new Date(Date.now()-32400000), consulta:'Mi hijo de 8 años necesita revisión visual, el colegio lo ha recomendado.', tx:'Revisión visual infantil', seg:'N/A', disp:'Cualquier mañana'},
+    {id:5, nombre:'Elena Ruiz', email:'elenita_r@outlook.es', tel:'644 321 000', canal:'web', estado:'qualified', fecha:new Date(Date.now()-86400000), consulta:'Quiero cambiar mis gafas actuales, llevan 4 años y ya no veo bien de lejos.', tx:'Renovación gafas', seg:'N/A', disp:'Entre semana por la tarde'},
+  ],
+  veterinaria: [
+    {id:1, nombre:'Ana Blanco', email:'anablanco@gmail.com', tel:'611 222 333', canal:'web', estado:'new', fecha:new Date(Date.now()-720000), consulta:'Mi perro lleva dos días sin comer y está muy decaído. ¿Podéis atenderle hoy?', tx:'Consulta urgente perro', seg:'N/A', disp:'Hoy mismo'},
+    {id:2, nombre:'Marcos Fuentes', email:'marcos.f@gmail.com', tel:'655 111 444', canal:'web', estado:'qualified', fecha:new Date(Date.now()-5400000), consulta:'Quiero vacunar a mi gata y hacerle la revisión anual. ¿Cuánto cuesta?', tx:'Vacunación y revisión gato', seg:'N/A', disp:'Esta semana'},
+    {id:3, nombre:'Rosa Jiménez', email:'rosaji@hotmail.com', tel:'677 444 555', canal:'email', estado:'contacted', fecha:new Date(Date.now()-18000000), consulta:'Busco una clínica para castrar a mi perro. ¿Hacéis presupuesto previo?', tx:'Castración canina', seg:'N/A', disp:'Próxima semana'},
+    {id:4, nombre:'David Torres', email:'d.torres@empresa.com', tel:'633 555 666', canal:'web', estado:'new', fecha:new Date(Date.now()-32400000), consulta:'Mi gato tiene problemas de piel y no para de rascarse. Necesito cita.', tx:'Dermatología felina', seg:'N/A', disp:'Martes o miércoles'},
+    {id:5, nombre:'Carmen López', email:'carmenl@gmail.com', tel:'644 666 777', canal:'web', estado:'qualified', fecha:new Date(Date.now()-86400000), consulta:'¿Tenéis servicio de peluquería canina? Quiero cortar el pelo a mi labrador.', tx:'Peluquería canina', seg:'N/A', disp:'Fin de semana'},
+  ],
+  psicologia: [
+    {id:1, nombre:'Laura Méndez', email:'lmendez@gmail.com', tel:'612 999 111', canal:'web', estado:'new', fecha:new Date(Date.now()-900000), consulta:'Llevo meses con ansiedad y me cuesta dormir. ¿Podéis orientarme sobre el proceso?', tx:'Ansiedad y insomnio', seg:'N/A', disp:'Tardes entre semana'},
+    {id:2, nombre:'Pablo Sanz', email:'p.sanz@outlook.com', tel:'655 888 222', canal:'web', estado:'qualified', fecha:new Date(Date.now()-7200000), consulta:'Busco psicólogo para mi hijo adolescente, está pasando una época difícil.', tx:'Psicología adolescentes', seg:'N/A', disp:'Cualquier tarde'},
+    {id:3, nombre:'Sofía Ramos', email:'sofiaramos@gmail.com', tel:'677 777 333', canal:'email', estado:'contacted', fecha:new Date(Date.now()-18000000), consulta:'¿Hacéis terapia de pareja? Mi marido y yo queremos intentarlo.', tx:'Terapia de pareja', seg:'N/A', disp:'Sábados'},
+    {id:4, nombre:'Miguel Ortega', email:'mortega@empresa.es', tel:'633 666 444', canal:'web', estado:'new', fecha:new Date(Date.now()-36000000), consulta:'Tengo fobia a volar y en 3 meses tengo un viaje importante. ¿Podéis ayudarme?', tx:'Fobia específica', seg:'N/A', disp:'Urgente, lo antes posible'},
+    {id:5, nombre:'Isabel Navarro', email:'isabel.n@hotmail.com', tel:'644 555 555', canal:'web', estado:'qualified', fecha:new Date(Date.now()-90000000), consulta:'Llevo tiempo con síntomas de depresión. ¿Trabajáis con mi seguro Mapfre?', tx:'Depresión', seg:'Mapfre', disp:'Mañanas entre semana'},
+  ],
+  reformas: [
+    {id:1, nombre:'Roberto Fernández', email:'roberto@gmail.com', tel:'622 111 333', canal:'web', estado:'new', fecha:new Date(Date.now()-900000), consulta:'Quiero presupuesto para reforma integral de cocina y baño en piso de 90m².', tx:'Reforma cocina y baño', seg:'N/A', disp:'Cualquier mañana esta semana'},
+    {id:2, nombre:'Isabel Torres', email:'itort@gmail.com', tel:'655 444 222', canal:'web', estado:'qualified', fecha:new Date(Date.now()-5400000), consulta:'Necesito pintar toda la vivienda, unos 80m². ¿Cuánto tardaríais?', tx:'Pintura vivienda completa', seg:'N/A', disp:'Fines de semana'},
+    {id:3, nombre:'Pedro Molina', email:'pedro.molina@empresa.com', tel:'677 888 111', canal:'email', estado:'contacted', fecha:new Date(Date.now()-14400000), consulta:'Se me ha roto una tubería en el baño. Necesito fontanero urgente.', tx:'Urgencia fontanería', seg:'N/A', disp:'Hoy mismo'},
+    {id:4, nombre:'Carmen Ruiz', email:'carmen.r@hotmail.com', tel:'633 777 555', canal:'web', estado:'new', fecha:new Date(Date.now()-32400000), consulta:'Avería en sistema de climatización de la oficina. Urgente.', tx:'Avería climatización', seg:'N/A', disp:'Hoy o mañana'},
+    {id:5, nombre:'Antonio Jiménez', email:'ajimenez@reformas.es', tel:'644 222 888', canal:'web', estado:'qualified', fecha:new Date(Date.now()-90000000), consulta:'Quiero cambiar todas las ventanas del piso, son 6 ventanas y una balconera.', tx:'Cambio ventanas y balconera', seg:'N/A', disp:'Entre semana por la mañana'},
+  ],
+  default: [
+    {id:1, nombre:'Roberto Fernández', email:'roberto@construcciones.es', tel:'622 111 333', canal:'web', estado:'new', fecha:new Date(Date.now()-900000), consulta:'Me gustaría recibir más información sobre vuestros servicios. ¿Podéis contactarme?', tx:'Información general', seg:'N/A', disp:'Cualquier mañana'},
+    {id:2, nombre:'Isabel Torres', email:'itort@gmail.com', tel:'655 444 222', canal:'web', estado:'qualified', fecha:new Date(Date.now()-5400000), consulta:'Tengo interés en contratar. ¿Podemos hablar esta semana?', tx:'Consulta comercial', seg:'N/A', disp:'Fines de semana'},
+    {id:3, nombre:'Pedro Molina', email:'pedro.molina@empresa.com', tel:'677 888 111', canal:'email', estado:'contacted', fecha:new Date(Date.now()-14400000), consulta:'¿Cuáles son vuestros precios y plazos de entrega?', tx:'Precios y plazos', seg:'N/A', disp:'Jueves o viernes tarde'},
+    {id:4, nombre:'Carmen Ruiz', email:'carmen.r@hotmail.com', tel:'633 777 555', canal:'web', estado:'new', fecha:new Date(Date.now()-32400000), consulta:'Necesito ayuda con urgencia. ¿Estáis disponibles hoy?', tx:'Urgencia', seg:'N/A', disp:'Hoy o mañana'},
+    {id:5, nombre:'Antonio Jiménez', email:'ajimenez@gmail.es', tel:'644 222 888', canal:'web', estado:'qualified', fecha:new Date(Date.now()-90000000), consulta:'Quisiera una reunión para conocer mejor vuestro servicio.', tx:'Reunión informativa', seg:'N/A', disp:'Entre semana por la mañana'},
+  ]
+};
+
+function getLeadsPyme(negocio) {
+  const n = negocio.toLowerCase();
+  if (n.includes('óptica') || n.includes('optica') || n.includes('óptico')) return LEADS_PYME_POR_SECTOR.optica;
+  if (n.includes('veterinar') || n.includes('animal') || n.includes('mascota')) return LEADS_PYME_POR_SECTOR.veterinaria;
+  if (n.includes('psicolog') || n.includes('terapia') || n.includes('mental')) return LEADS_PYME_POR_SECTOR.psicologia;
+  if (n.includes('reform') || n.includes('construcc') || n.includes('fontaner') || n.includes('pintur')) return LEADS_PYME_POR_SECTOR.reformas;
+  return LEADS_PYME_POR_SECTOR.default;
+}
+
+const demoLeadsPyme = getLeadsPyme(NEGOCIO);
 document.getElementById('s-name').textContent = NEGOCIO;
 document.getElementById('s-avatar').textContent = NEGOCIO[0].toUpperCase();
 
