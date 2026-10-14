@@ -325,7 +325,7 @@ async function enviarMensaje() {
     let respHtml = resp;
     if (panelMatch) {
       const url = panelMatch[1];
-      respHtml = resp.replace(url, `<a href="${url}" target="_blank" style="display:inline-block;margin-top:8px;background:linear-gradient(90deg,var(--indigo),var(--cyan));color:white;padding:8px 14px;border-radius:8px;text-decoration:none;font-size:.82rem;font-weight:600;">📊 Ver panel de leads →</a>`);
+      respHtml = resp.replace(url, `<br><a href="${url}" target="_blank" style="display:inline-block;margin-top:10px;background:#0EA5A0;color:white;padding:9px 20px;border-radius:100px;text-decoration:none;font-size:13px;font-weight:600;">📊 Ver panel de leads →</a>`);
     }
     area.innerHTML += `<div class="msg agent">${respHtml}</div>`
     area.scrollTop = area.scrollHeight
