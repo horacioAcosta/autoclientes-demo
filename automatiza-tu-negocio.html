@@ -340,10 +340,10 @@
     // Actualizar título del chat de Catalina
     document.getElementById('pyme-titulo').textContent = nombreTab + ' · Asistente virtual IA';
     // Limpiar chat de Catalina
-    const chat = document.getElementById('sara-chat-pymes');
+    const chat = document.getElementById('cat-chat-pymes');
     if(chat) {
       chat.innerHTML = '';
-      setTimeout(() => saraMsgBot('Hola, soy Catalina, el asistente virtual de IA de AutoClientes.ai, especializada en ayudar a ' + saraSector + ' a no perder consultas fuera de horario. Puede solicitar atención humana en cualquier momento. ¿En qué puedo ayudarle?'), 500);
+      setTimeout(() => catMsgBot('Hola, soy Catalina, el asistente virtual de IA de AutoClientes.ai, especializada en ayudar a ' + saraSector + ' a no perder consultas fuera de horario. Puede solicitar atención humana en cualquier momento. ¿En qué puedo ayudarle?'), 500);
     }
   }
 
@@ -418,9 +418,9 @@
         <div style="width:10px;height:10px;border-radius:50%;background:#22c55e;flex-shrink:0;"></div>
         <span style="font-weight:600;font-size:14px;">Catalina · AutoClientes.ai — IA en tiempo real</span>
       </div>
-      <div id="sara-chat-pymes" style="height:300px;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px;"></div>
+      <div id="cat-chat-pymes" style="height:300px;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px;"></div>
       <div style="padding:12px 16px;border-top:1px solid rgba(255,255,255,0.06);display:flex;gap:8px;">
-        <input id="sara-input-pymes" type="text" placeholder="Escriba su consulta..." 
+        <input id="cat-input-pymes" type="text" placeholder="Escriba su consulta..." 
                style="flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px 14px;color:white;font-size:13px;font-family:inherit;outline:none;"
                onkeydown="if(event.key==='Enter')saraSendPymes()">
         <button onclick="saraSendPymes()" 
@@ -432,19 +432,19 @@
   </div>
 
   <script>
-  const saraMsgBot = (text) => {
+  const catMsgBot = (text) => {
     const el = document.createElement('div');
     el.style.cssText = 'align-self:flex-start;background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.2);border-radius:12px 12px 12px 2px;padding:10px 14px;max-width:85%;font-size:13.5px;line-height:1.6;color:rgba(255,255,255,.9);white-space:pre-line';
-    el.textContent = text;
-    document.getElementById('sara-chat-pymes').appendChild(el);
-    document.getElementById('sara-chat-pymes').scrollTop = 9999;
+    const panelMatch = text.match(/(https:\/\/autoclientes\.canal-ia\.com\/panel-cliente\.html[^\s<"]*)/); if(panelMatch){const url=panelMatch[1];el.innerHTML=text.replace(url,'<br><a href="'+url+'" target="_blank" style="display:inline-block;margin-top:10px;background:#0EA5A0;color:white;padding:9px 20px;border-radius:100px;text-decoration:none;font-size:13px;font-weight:600;">📊 Ver panel de leads →</a>');} else {el.textContent=text;}
+    document.getElementById('cat-chat-pymes').appendChild(el);
+    document.getElementById('cat-chat-pymes').scrollTop = 9999;
   };
-  const saraMsgUser = (text) => {
+  const catMsgUser = (text) => {
     const el = document.createElement('div');
     el.style.cssText = 'align-self:flex-end;background:rgba(99,102,241,.3);border-radius:12px 12px 2px 12px;padding:10px 14px;max-width:75%;font-size:13.5px;color:white';
     el.textContent = text;
-    document.getElementById('sara-chat-pymes').appendChild(el);
-    document.getElementById('sara-chat-pymes').scrollTop = 9999;
+    document.getElementById('cat-chat-pymes').appendChild(el);
+    document.getElementById('cat-chat-pymes').scrollTop = 9999;
   };
   let saraSessionId = 'demo-pymes-' + Math.random().toString(36).substr(2,9);
   let saraFirstMsg = true;
@@ -463,18 +463,18 @@
   let saraSending = false;
 
   async function saraSendPymes() {
-    const input = document.getElementById('sara-input-pymes');
+    const input = document.getElementById('cat-input-pymes');
     const text = input.value.trim();
     if (!text || saraSending) return;
     input.value = '';
-    saraMsgUser(text);
+    catMsgUser(text);
     saraSending = true;
     const typing = document.createElement('div');
-    typing.id = 'sara-typing';
+    typing.id = 'cat-typing';
     typing.style.cssText = 'align-self:flex-start;background:rgba(99,102,241,.08);border-radius:12px;padding:10px 14px;font-size:13px;color:rgba(255,255,255,.4)';
     typing.textContent = 'Catalina está escribiendo...';
-    document.getElementById('sara-chat-pymes').appendChild(typing);
-    document.getElementById('sara-chat-pymes').scrollTop = 9999;
+    document.getElementById('cat-chat-pymes').appendChild(typing);
+    document.getElementById('cat-chat-pymes').scrollTop = 9999;
     try {
       const resp = await fetch('https://webhook.canal-ia.com/catalina/chat', {
         method: 'POST',
@@ -485,7 +485,7 @@
       const data = await resp.json();
       typing.remove();
       const pymeReply = data.respuesta || 'Disculpa, ha habido un problema. Escríbenos directamente.';
-      saraMsgBotWithCta(pymeReply);
+      catMsgBotWithCta(pymeReply);
       // Pop-up lead cualificado
       const pymeIsLead = pymeLeadKeywords.some(k => pymeReply.toLowerCase().includes(k));
       if(!_pymeLeadShown && pymeIsLead){
@@ -494,13 +494,13 @@
           const popup = document.createElement('div');
           popup.style.cssText = 'margin:8px 0;padding:16px 20px;background:linear-gradient(135deg,rgba(34,197,94,0.15),rgba(99,102,241,0.1));border:1px solid rgba(34,197,94,0.4);border-radius:12px;text-align:center;';
           popup.innerHTML = '<div style="font-size:20px;margin-bottom:8px;">✅</div><p style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.95);margin-bottom:6px;">Lead cualificado capturado</p><p style="font-size:12px;color:rgba(255,255,255,0.6);margin-bottom:12px;">Así recibiría este cliente en su panel — con nombre, consulta y disponibilidad listos para llamar.</p><a href="/panel-cliente.html?slug=demo-pyme&negocio=Empresa+de+Servicios" target="_blank" style="display:inline-block;background:#22C55E;color:white;padding:8px 18px;border-radius:100px;text-decoration:none;font-size:12px;font-weight:600;">Ver cómo llega al panel →</a>';
-          document.getElementById('sara-chat-pymes').appendChild(popup);
-          document.getElementById('sara-chat-pymes').scrollTop = 9999;
+          document.getElementById('cat-chat-pymes').appendChild(popup);
+          document.getElementById('cat-chat-pymes').scrollTop = 9999;
         }, 1500);
       }
     } catch(e) {
       typing.remove();
-      saraMsgBotWithCta('Disculpa, ha habido un problema técnico. Escríbenos directamente a contacto@canal-ia.com');
+      catMsgBotWithCta('Disculpa, ha habido un problema técnico. Escríbenos directamente a contacto@canal-ia.com');
     }
     saraSending = false;
   }
@@ -510,9 +510,9 @@
   let _pymeLeadShown = false;
   const pymeLeadKeywords = ['le paso los datos','quedo apuntado','le contactar','le llamar','ha quedado registrad','anotado','perfecto, le','gracias por los datos','en breve le'];
 
-  const _origSaraMsgBot = saraMsgBot;
-  function saraMsgBotWithCta(text) {
-    _origSaraMsgBot(text);
+  const _origCatMsgBot = catMsgBot;
+  function catMsgBotWithCta(text) {
+    _origCatMsgBot(text);
     _pymeMsgCount++;
     if(!_pymeCta && _pymeMsgCount >= 2) {
       _pymeCta = true;
@@ -520,15 +520,15 @@
         const cta = document.createElement('div');
         cta.style.cssText = 'margin:8px 0;padding:14px 16px;background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(6,182,212,.1));border:1px solid rgba(99,102,241,.3);border-radius:12px;text-align:center;';
         cta.innerHTML = '<p style="font-size:13px;color:rgba(255,255,255,0.8);margin-bottom:10px;">¿Desea que Catalina atienda así a sus clientes?</p><a href="mailto:contacto@canal-ia.com?subject=Quiero probar AutoClientes.ai en mi negocio" style="display:inline-block;background:linear-gradient(90deg,#6366f1,#06b6d4);color:white;padding:9px 20px;border-radius:100px;text-decoration:none;font-size:13px;font-weight:600;">Quiero mis 15 días gratis →</a>';
-        document.getElementById('sara-chat-pymes').appendChild(cta);
-        document.getElementById('sara-chat-pymes').scrollTop = 9999;
+        document.getElementById('cat-chat-pymes').appendChild(cta);
+        document.getElementById('cat-chat-pymes').scrollTop = 9999;
       }, 1000);
     }
   }
 
   // Mensaje de bienvenida
   window.addEventListener('load', () => {
-    setTimeout(() => saraMsgBot('Hola, soy Catalina, el asistente virtual de IA de AutoClientes.ai. ¿En qué puedo ayudarle? Puede preguntarme sobre nuestro servicio o cómo funcionaría en su negocio.'), 800);
+    setTimeout(() => catMsgBot('Hola, soy Catalina, el asistente virtual de IA de AutoClientes.ai. ¿En qué puedo ayudarle? Puede preguntarme sobre nuestro servicio o cómo funcionaría en su negocio.'), 800);
   });
   </script>
 
