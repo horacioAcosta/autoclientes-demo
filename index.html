@@ -648,7 +648,8 @@ function addMsg(type,text){
   } else {
     const d=document.createElement('div');
     d.className='msg '+type;
-    d.textContent=text;
+    const panelMatch = text.match(/(https:\/\/autoclientes\.canal-ia\.com\/panel-cliente\.html[^\s<"]*)/);
+    if(panelMatch){const url=panelMatch[1];d.innerHTML=text.replace(url,'<br><a href="'+url+'" target="_blank" style="display:inline-block;margin-top:10px;background:#0EA5A0;color:white;padding:9px 20px;border-radius:100px;text-decoration:none;font-size:13px;font-weight:600;">📊 Ver panel de leads →</a>');}else{d.textContent=text;}
     el.appendChild(d);
   }
   scrollChat();
