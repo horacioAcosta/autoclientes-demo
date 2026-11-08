@@ -125,7 +125,7 @@
   <div class="hero">
     <div class="badge-top">⚡ DEMO EN VIVO</div>
     <h1>Convierte más presupuestos<br><span>en clientes reales</span></h1>
-    <p>Si entran 30 consultas y se pierden 5 consultas por falta de seguimiento, dejando miles de euros sobre la mesa. Esto tiene solución.</p>
+    <p>Cada semana se pierden consultas por falta de seguimiento. Miles de euros que se van a la competencia. Esto tiene solución.</p>
   </div>
 
   <!-- Antes / Después -->
@@ -171,6 +171,7 @@
       <button class="pyme-tab" onclick="pymeScenario('carpinteria',this);cambiarSectorCatalina('carpinteria','Carpintería')">🪵 Carpintería</button>
       <button class="pyme-tab" onclick="pymeScenario('fontaneria',this);cambiarSectorCatalina('fontaneria','Fontanería')">🔩 Fontanería</button>
       <button class="pyme-tab" onclick="pymeScenario('jardineria',this);cambiarSectorCatalina('jardineria','Jardinería')">🌿 Jardinería</button>
+      <button class="pyme-tab" onclick="pymeScenario('drogueria',this);cambiarSectorCatalina('drogueria','Droguería y Alimentación')">📦 Droguería</button>
     </div>
 
     <!-- Chat window -->
@@ -315,6 +316,19 @@
         {type:'user', text:'4-6 unidades'},
         {type:'bot', text:'Su consulta ha quedado registrada. Nuestro asesor le contactará el lunes antes de las 10h con un presupuesto sin compromiso.'},
       ]
+    },
+    drogueria: {
+      titulo: "Droguería / Alimentación · Asistente virtual IA",
+      msgs: [
+        {type:'time', text:'Lunes · 08:10'},
+        {type:'bot', text:'Hola, soy el asistente de esta droguería. ¿Necesita información sobre nuestro servicio de inventario o tiene otra consulta?'},
+        {type:'qr', items:['Diagnóstico de inventario','Automatizar pedidos a proveedor','Otra consulta']},
+        {type:'user', text:'Diagnóstico de inventario'},
+        {type:'bot', text:'Perfecto. Analizamos su stock para detectar mermas, caducidades y productos que no rotan. ¿Cuántas referencias maneja aproximadamente?'},
+        {type:'qr', items:['Menos de 500','Entre 500 y 2.000','Más de 2.000']},
+        {type:'user', text:'Entre 500 y 2.000'},
+        {type:'bot', text:'Su consulta ha quedado registrada. Le enviaremos una propuesta de diagnóstico (desde 150€) antes de 48h. ¿A qué número prefiere que le llamemos?'},
+      ]
     }
   };
     let pymeTimer = null;
@@ -458,7 +472,8 @@
     'ventanas': 'empresa de instalaciones y ventanas',
     'carpinteria': 'empresa de carpintería',
     'fontaneria': 'empresa de fontanería',
-    'jardineria': 'empresa de jardinería y paisajismo'
+    'jardineria': 'empresa de jardinería y paisajismo',
+    'drogueria': 'droguería o negocio de alimentación'
   };
   let saraSending = false;
 
@@ -528,7 +543,7 @@
 
   // Mensaje de bienvenida
   window.addEventListener('load', () => {
-    setTimeout(() => catMsgBot('Hola, soy Catalina, el asistente virtual de IA de AutoClientes.ai. ¿En qué puedo ayudarle? Puede preguntarme sobre nuestro servicio o cómo funcionaría en su negocio.'), 800);
+    const _negParam = new URLSearchParams(window.location.search).get('negocio'); const _negNombre = _negParam ? _negParam : 'su negocio'; setTimeout(() => catMsgBot('Hola, soy Catalina, el asistente virtual de IA de AutoClientes.ai. ¿En qué puedo ayudarle sobre ' + _negNombre + '? Cuénteme cómo funcionaría el sistema allí.'), 800);
   });
   </script>
 
@@ -551,6 +566,14 @@
   </div>
   <div style="margin-top:16px;padding:14px 18px;background:rgba(255,255,255,0.02);border-radius:10px;text-align:center;">
     <p style="font-size:12px;color:rgba(255,255,255,0.35);">Una reforma vale 3.000€+. Un piso vendido, 5.000€+. Un fin de semana sin respuesta puede costar más que un año de servicio.</p>
+  </div>
+</div>
+
+<div style="max-width:680px;margin:0 auto 48px;padding:0 20px;">
+  <div style="background:linear-gradient(135deg,rgba(6,182,212,.1),rgba(99,102,241,.06));border:1px solid rgba(6,182,212,.25);border-radius:14px;padding:24px;">
+    <div style="font-size:11px;font-weight:700;color:var(--cyan);letter-spacing:.05em;margin-bottom:8px;">📦 TAMBIÉN PARA DROGUERÍAS Y ALIMENTACIÓN</div>
+    <p style="font-size:14px;color:var(--white);margin-bottom:10px;">Consultoría de inventarios: diagnóstico de mermas, caducidades y surtido, con automatización de pedidos a proveedor cuando el stock baja del mínimo.</p>
+    <p style="font-size:13px;color:var(--muted);">Diagnóstico desde <strong style="color:white;">150€</strong> · Automatización de pedidos desde <strong style="color:white;">690€</strong></p>
   </div>
 </div>
 
